@@ -1,4 +1,4 @@
-# Raio-X da TRI na prova amarela · Enem 2025
+# Raio-X TRI · Enem 2025
 
 Análise dos microdados do Enem 2025 (INEP), caderno amarelo: alunos com o mesmo número de acertos e notas diferentes (coerência pedagógica), dificuldade dos itens (parâmetro b), discriminação (parâmetro a), a virada do parâmetro a, quem errou só uma questão e o preço de cada erro.
 
