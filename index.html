@@ -105,8 +105,8 @@ body.modo-red .lateral { display: none; }
 :root[data-theme="dark"] .logo-claro { display: none; } :root[data-theme="dark"] .logo-escuro { display: block; }
 .marca img { height: 64px; }
 .barra img.mini { height: 28px; margin-right: 4px; }
-footer .assina { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-footer .assina img { height: 40px; }
+footer .assina { display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; margin-top: 10px; }
+footer .assina img { height: 56px; }
 .barra { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); }
 .barra .wrap { display: flex; flex-wrap: wrap; gap: 8px 22px; align-items: center; padding-block: 10px; }
 .barra .grp { display: inline-flex; align-items: center; gap: 10px; flex-wrap: nowrap; }
@@ -444,12 +444,8 @@ footer { padding-block: 26px 50px; color: var(--ink-3); font-size: 0.85rem; disp
 </div>
 
 <footer class="wrap">
-  <p><a href="raio-x-tri-enem-2025.pdf" download>Baixar o relatório completo em PDF</a></p>
-  <p class="assina"><img class="logo-claro " src="marca/jazz-claro.png" alt="Professor Jazz · Professor de Matemática" height="40"><img class="logo-escuro " src="marca/jazz-escuro.png" alt="Professor Jazz · Professor de Matemática" height="40"><span>Análise e material didático do <b>Professor Jazz</b>, professor de Matemática. Uso em sala com os créditos.</span></p>
-  <p><b>Fonte:</b> INEP, Microdados do Enem 2025 (RESULTADOS_2025 e ITENS_PROVA_2025). Caderno amarelo: 1ª aplicação, provas 1460 (LC), 1448 (CH), 1484 (CN) e 1472 (MT); reaplicação, provas 1550, 1540, 1570 e 1560; Belém, Ananindeua e Marituba (COP30), provas 1530, 1521, 1512 e 1503 em ITENS_PROVA.</p>
-  <p><b>Belém tem duas numerações.</b> Em RESULTADOS, os alunos de Belém aparecem com códigos de prova próprios (LC 1596, CH 1584, CN 1620, MT 1608), que não existem em ITENS_PROVA. Os parâmetros estão na família 1499–1538 de ITENS_PROVA. Ligamos as duas numerações comparando o gabarito: o TX_GABARITO de cada código de RESULTADOS bate 100% com o gabarito do código correspondente em ITENS_PROVA. Para Belém não temos os cadernos em PDF, então a tabela não mostra o início do enunciado.</p>
-  <p><b>Limites dos dados:</b> o INEP retirou dos microdados os alunos das provas 1540 e 1550 (reaplicação de CH e LC) por serem poucos, então para elas só há parâmetros dos itens. A reaplicação de CN e MT tem 168 alunos no caderno amarelo, poucos demais para medir o preço de cada erro. Questões anuladas pelo INEP (CN 115, 121 e 127; MT 176 e 178; CH 54 da reaplicação) não contam como acerto. Em Linguagens, as questões 1 a 5 de inglês e de espanhol são itens diferentes: as estatísticas de cada uma usam só os alunos daquela língua. Os gráficos do preço do erro mostram a versão em inglês; os números do espanhol estão na tabela completa.</p>
-  <p><b>Método:</b> escala Enem = 500 + 100 × b; faixas de dificuldade por área conforme as Aulas 06 a 09 do Prof. Fredão (Tríade Enem); histórico de habilidades de 2012 a 2023 tirado das mesmas aulas.</p>
+  <p style="text-align:center"><a href="raio-x-tri-enem-2025.pdf" download>Baixar o relatório completo em PDF</a></p>
+  <p class="assina"><span>Análise e material didático do <b>Professor Jazz</b>, professor de Matemática. Uso em sala com os créditos.</span><img class="logo-claro " src="marca/jazz-claro.png" alt="Professor Jazz · Professor de Matemática" height="56"><img class="logo-escuro " src="marca/jazz-escuro.png" alt="Professor Jazz · Professor de Matemática" height="56"></p>
 </footer>
 
 <script>
