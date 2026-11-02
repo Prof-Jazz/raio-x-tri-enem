@@ -50,7 +50,7 @@
 * { box-sizing: border-box; }
 body { background: var(--paper); color: var(--ink); font: 400 16px/1.6 var(--body); }
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--sheet); }
-.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.wrap { max-width: 1320px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
 h1 { font-size: clamp(2rem, 5vw, 3.3rem); line-height: 1.02; font-weight: 800; }
 h2 { font-size: clamp(1.45rem, 3vw, 2rem); line-height: 1.15; font-weight: 700; }
@@ -66,7 +66,39 @@ header.hero { padding-block: 40px 28px; display: grid; gap: 16px; }
 .tarja i { width: 34px; height: 14px; background: var(--amarela); border-radius: 2px; display: inline-block; }
 .hero p { font-size: 1.08rem; color: var(--ink-2); }
 
-body.modo-red main > .folha:not(#redacao), body:not(.modo-red) #redacao { display: none; }
+main > .folha { display: none; }
+main > .folha.ativa { display: block; }
+body.modo-red main > .folha { display: none; }
+body.modo-red main > #redacao { display: block; }
+.layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 28px; align-items: start; }
+.lateral { position: sticky; top: var(--hbar, 70px); display: flex; flex-direction: column; gap: 2px; padding-block: 22px; max-height: calc(100vh - var(--hbar, 70px)); overflow-y: auto; }
+.lateral .gt { font: 700 0.7rem/1 var(--body); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); padding: 16px 12px 6px; }
+.lateral .gt:first-child { padding-top: 4px; }
+.lateral a { display: flex; gap: 10px; align-items: baseline; padding: 9px 12px; border-radius: 8px; color: var(--ink-2); text-decoration: none; font: 600 0.9rem/1.3 var(--body); }
+.lateral a b { min-width: 1.9em; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.lateral a:hover { background: var(--sheet); color: var(--ink); }
+.lateral a.on { background: var(--sheet); color: var(--ink); box-shadow: inset 3px 0 0 var(--amarela), 0 0 0 1px var(--rule); }
+.lateral a.on b { color: var(--amarela-ink); }
+.secnav { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; border-top: 1px solid var(--rule); padding-top: 18px; margin-top: 8px; }
+.secnav button { font: 600 0.9rem/1.2 var(--body); border: 1px solid var(--rule); background: var(--paper); color: var(--ink); padding: 10px 16px; border-radius: 999px; cursor: pointer; text-align: left; }
+.secnav button small { display: block; font-weight: 500; font-size: 0.72rem; color: var(--ink-3); }
+.secnav button.prox { margin-left: auto; text-align: right; }
+body.modo-red .layout { grid-template-columns: minmax(0, 1fr); }
+body.modo-red .lateral { display: none; }
+@media (max-width: 900px) {
+  .layout { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .lateral { flex-direction: row; overflow-x: auto; overflow-y: hidden; max-height: none; padding-block: 10px; gap: 6px; background: color-mix(in srgb, var(--paper) 94%, transparent); backdrop-filter: blur(8px); z-index: 4; border-bottom: 1px solid var(--rule); }
+  .lateral .gt { display: none; }
+  .barra .wrap { gap: 6px; padding-block: 8px; }
+  .barra img.mini { display: none; }
+  .barra .grp { width: 100%; min-width: 0; }
+  .barra .grp .rot { min-width: 5.6em; }
+  .barra .grp .seg { flex-wrap: nowrap; overflow-x: auto; min-width: 0; scrollbar-width: none; }
+  .barra .grp .seg button { flex: none; padding: 7px 11px; font-size: 0.82rem; }
+  .lateral a { flex: none; white-space: nowrap; border: 1px solid var(--rule); border-radius: 999px; padding: 7px 12px; font-size: 0.82rem; background: var(--sheet); }
+  .lateral a.on { box-shadow: none; background: var(--amarela); border-color: var(--amarela); color: #141a2e; }
+  .lateral a.on b { color: #141a2e; }
+}
 .logo-claro, .logo-escuro { width: auto; display: block; }
 .logo-escuro { display: none; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .logo-claro { display: none; } :root:not([data-theme="light"]) .logo-escuro { display: block; } }
@@ -76,14 +108,8 @@ body.modo-red main > .folha:not(#redacao), body:not(.modo-red) #redacao { displa
 footer .assina { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
 footer .assina img { height: 40px; }
 .barra { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); }
-.barra .wrap { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; padding-block: 10px; }
-.barra .menu { flex-wrap: nowrap; overflow-x: auto; gap: 6px; padding-block: 0 10px; scrollbar-width: thin; }
-.menu a { flex: none; font: 600 0.8rem/1 var(--body); padding: 7px 11px; border-radius: 999px; border: 1px solid var(--rule); color: var(--ink-2); text-decoration: none; background: var(--sheet); white-space: nowrap; }
-.menu a b { color: var(--ink); margin-right: 3px; }
-.menu a.on { background: var(--amarela); border-color: var(--amarela); color: #141a2e; }
-.menu a.on b { color: #141a2e; }
-body.modo-red .menu { display: none; }
-main .folha { scroll-margin-top: var(--hbar, 130px); }
+.barra .wrap { display: flex; flex-wrap: wrap; gap: 8px 22px; align-items: center; padding-block: 10px; }
+.barra .grp { display: inline-flex; align-items: center; gap: 10px; flex-wrap: nowrap; }
 .seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; padding: 3px; background: var(--sheet); flex-wrap: wrap; }
 .seg button { font: 600 0.88rem/1 var(--body); border: 0; background: transparent; color: var(--ink-2); padding: 8px 13px; border-radius: 999px; cursor: pointer; }
 .seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
@@ -217,15 +243,14 @@ footer { padding-block: 26px 50px; color: var(--ink-3); font-size: 0.85rem; disp
 <nav class="barra" aria-label="Escolha da prova">
   <div class="wrap">
     <img class="logo-claro mini" src="marca/jazz-claro.png" alt="Professor Jazz · Professor de Matemática" height="28"><img class="logo-escuro mini" src="marca/jazz-escuro.png" alt="Professor Jazz · Professor de Matemática" height="28">
-    <span class="rot">Área</span>
-    <div class="seg" id="segArea"></div>
-    <span class="rot">Aplicação</span>
-    <div class="seg" id="segAp"></div>
+    <div class="grp"><span class="rot">Área</span><div class="seg" id="segArea"></div></div>
+    <div class="grp"><span class="rot">Aplicação</span><div class="seg" id="segAp"></div></div>
   </div>
-  <div class="wrap menu" id="menuSec" aria-label="Ir para a pergunta"></div>
 </nav>
 
-<main class="wrap">
+<div class="wrap layout">
+<nav class="lateral" id="menuSec" aria-label="Perguntas"></nav>
+<main>
 
 <section class="folha" id="tri">
   <div class="in">
@@ -416,6 +441,7 @@ footer { padding-block: 26px 50px; color: var(--ink-3); font-size: 0.85rem; disp
 </section>
 
 </main>
+</div>
 
 <footer class="wrap">
   <p><a href="raio-x-tri-enem-2025.pdf" download>Baixar o relatório completo em PDF</a></p>
@@ -438,7 +464,7 @@ const fcor = f => FCOR[FAIXAS.indexOf(f)] || 'var(--ink-3)';
 const ATIER = [[0,1,'Baixa (< 1)','var(--f1)'],[1,2,'Moderada (1 a 2)','var(--f2)'],[2,3,'Alta (2 a 3)','var(--f3)'],[3,99,'Muito alta (≥ 3)','var(--f5)']];
 const acor = a => (ATIER.find(t => a >= t[0] && a < t[1]) || ATIER[0])[3];
 const st = { area: 'MT', ap: 'P1' };
-try { const s = JSON.parse(localStorage.getItem('raiox') || '{}'); if (s.area) st.area = s.area; if (s.ap) st.ap = s.ap; } catch (e) {}
+try { const s = JSON.parse(localStorage.getItem('raiox') || '{}'); if (s.area) st.area = s.area; if (s.ap) st.ap = s.ap; if (s.sec) st.sec = s.sec; } catch (e) {}
 const fmt = (v, d = 1) => v == null || isNaN(v) ? '—' : Number(v).toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d });
 const fint = v => Number(v).toLocaleString('pt-BR');
 // preço do erro em palavras: nota de quem acertou − nota de quem errou, com o mesmo nº de acertos
@@ -948,20 +974,36 @@ function redacao() {
 }
 function render() { const red = st.area === 'RED'; document.body.classList.toggle('modo-red', red);
   if (red) redacao(); else { s1(); coer(); s2(); s3(); s4(); ranking(); virada(); s5(); s6(); topo(); s7(); } }
-// ---------- menu de seções: pula para a pergunta mantendo a área e a aplicação escolhidas
-const SECOES = [['tri', '', 'TRI'], ['s1', '1', 'Acertos × nota'], ['coer', '1b', 'Gêmeos'], ['s2', '2', 'Dificuldade'], ['s3', '3', 'Habilidades'], ['s4', '4', 'Parâmetro a'],
-  ['ranking', '', 'Ranking'], ['virada', '4b', 'Virada do a'], ['s5', '5', '35+ acertos'], ['s6', '6', 'Errou só uma'], ['topo', '6b', 'Gêmeos do topo'], ['s7', '', 'Questão a questão']];
+// ---------- menu lateral: mostra uma pergunta por vez, mantendo a área e a aplicação escolhidas
+const SECOES = [['Começo'], ['tri', '', 'Como a TRI funciona'],
+  ['Acertos e notas'], ['s1', '1', 'Acertos × nota'], ['coer', '1b', 'Alunos gêmeos (coerência)'],
+  ['As questões'], ['s2', '2', 'Dificuldade (b)'], ['s3', '3', 'Habilidades e competências'], ['s4', '4', 'Discriminação (a)'], ['ranking', '', 'Ranking das questões'],
+  ['Alto desempenho'], ['virada', '4b', 'A virada do parâmetro a'], ['s5', '5', '35 acertos ou mais'], ['s6', '6', 'Quem errou só uma'], ['topo', '6b', 'Gêmeos do topo'],
+  ['Consulta'], ['s7', '', 'Questão a questão']];
+const PERG = SECOES.filter(x => x.length > 1);
+function irPara(id, rolar) {
+  if (!PERG.some(p => p[0] === id)) id = PERG[0][0];
+  st.sec = id; try { localStorage.setItem('raiox', JSON.stringify(st)); } catch (e) {}
+  document.querySelectorAll('main > .folha').forEach(f => f.classList.toggle('ativa', f.id === id));
+  const box = document.getElementById('menuSec');
+  box.querySelectorAll('a').forEach(a => { const on = a.dataset.id === id; a.classList.toggle('on', on); a.setAttribute('aria-current', on ? 'page' : 'false');
+    if (on && box.scrollWidth > box.clientWidth) box.scrollTo({ left: a.offsetLeft - box.offsetLeft - 40 }); });
+  try { history.replaceState(null, '', '#' + id); } catch (e) {}
+  if (rolar) { const topo = document.querySelector('.layout').getBoundingClientRect().top + window.scrollY - document.querySelector('.barra').offsetHeight; if (window.scrollY > topo) window.scrollTo({ top: topo }); }
+}
 (function menu() {
   const nav = document.querySelector('.barra'), box = document.getElementById('menuSec');
-  box.innerHTML = '<span class="rot" style="flex:none">Ir para</span>' + SECOES.map(([id, n, l]) => `<a href="#${id}" data-id="${id}">${n ? `<b>${n}</b>` : ''}${l}</a>`).join('');
-  const altura = () => document.documentElement.style.setProperty('--hbar', (nav.offsetHeight + 8) + 'px');
+  box.innerHTML = SECOES.map(x => x.length === 1 ? `<span class="gt">${x[0]}</span>` : `<a href="#${x[0]}" data-id="${x[0]}">${x[1] ? `<b>${x[1]}</b>` : '<b>·</b>'}<span>${x[2]}</span></a>`).join('');
+  box.querySelectorAll('a').forEach(a => a.onclick = e => { e.preventDefault(); irPara(a.dataset.id, true); });
+  // botões de pergunta anterior / próxima no fim de cada seção
+  PERG.forEach(([id], k) => { const sec = document.getElementById(id); if (!sec) return; const alvo = sec.querySelector('.in') || sec;
+    const ant = PERG[k - 1], prox = PERG[k + 1]; const d = document.createElement('div'); d.className = 'secnav';
+    d.innerHTML = (ant ? `<button type="button" data-id="${ant[0]}"><small>← Anterior</small>${ant[1] ? ant[1] + ' · ' : ''}${ant[2]}</button>` : '') +
+      (prox ? `<button type="button" class="prox" data-id="${prox[0]}"><small>Próxima →</small>${prox[1] ? prox[1] + ' · ' : ''}${prox[2]}</button>` : '');
+    d.querySelectorAll('button').forEach(b => b.onclick = () => irPara(b.dataset.id, true)); alvo.appendChild(d); });
+  const altura = () => document.documentElement.style.setProperty('--hbar', nav.offsetHeight + 'px');
   altura(); window.addEventListener('resize', altura);
-  box.querySelectorAll('a').forEach(a => a.onclick = e => { e.preventDefault(); altura(); document.getElementById(a.dataset.id).scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-  const marca = id => box.querySelectorAll('a').forEach(a => { const on = a.dataset.id === id; a.classList.toggle('on', on); if (on) { const x = a.offsetLeft - box.offsetLeft; if (x < box.scrollLeft || x + a.offsetWidth > box.scrollLeft + box.clientWidth) box.scrollTo({ left: x - 40 }); } });
-  let atual = null;
-  window.addEventListener('scroll', () => { const lim = nav.offsetHeight + 40; let id = SECOES[0][0];
-    for (const [s] of SECOES) { const el = document.getElementById(s); if (el && el.getBoundingClientRect().top <= lim) id = s; }
-    if (id !== atual) { atual = id; marca(id); } }, { passive: true });
+  const hash = location.hash.slice(1); irPara(PERG.some(p => p[0] === hash) ? hash : (st.sec || 'tri'), false);
 })();
 montaSeg('segArea', ABAS, 'area'); montaSeg('segAp', APS, 'ap');
 ra.oninput = rb.oninput = cci; rk.oninput = par; cci(); render();
