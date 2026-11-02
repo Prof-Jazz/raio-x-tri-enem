@@ -3,9 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="author" content="Professor Jazz">
+<link rel="icon" href="marca/jazz-claro.png">
 <meta name="description" content="Análise TRI do caderno amarelo do Enem 2025: coerência pedagógica, dificuldade (b), discriminação (a) e o preço de cada erro.">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
-<title>Raio-X TRI · Enem 2025 Amarela</title>
+<title>Raio-X TRI · Enem 2025 · Professor Jazz</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
@@ -65,8 +67,23 @@ header.hero { padding-block: 40px 28px; display: grid; gap: 16px; }
 .hero p { font-size: 1.08rem; color: var(--ink-2); }
 
 body.modo-red main > .folha:not(#redacao), body:not(.modo-red) #redacao { display: none; }
+.logo-claro, .logo-escuro { width: auto; display: block; }
+.logo-escuro { display: none; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .logo-claro { display: none; } :root:not([data-theme="light"]) .logo-escuro { display: block; } }
+:root[data-theme="dark"] .logo-claro { display: none; } :root[data-theme="dark"] .logo-escuro { display: block; }
+.marca img { height: 64px; }
+.barra img.mini { height: 28px; margin-right: 4px; }
+footer .assina { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+footer .assina img { height: 40px; }
 .barra { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); }
 .barra .wrap { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; padding-block: 10px; }
+.barra .menu { flex-wrap: nowrap; overflow-x: auto; gap: 6px; padding-block: 0 10px; scrollbar-width: thin; }
+.menu a { flex: none; font: 600 0.8rem/1 var(--body); padding: 7px 11px; border-radius: 999px; border: 1px solid var(--rule); color: var(--ink-2); text-decoration: none; background: var(--sheet); white-space: nowrap; }
+.menu a b { color: var(--ink); margin-right: 3px; }
+.menu a.on { background: var(--amarela); border-color: var(--amarela); color: #141a2e; }
+.menu a.on b { color: #141a2e; }
+body.modo-red .menu { display: none; }
+main .folha { scroll-margin-top: var(--hbar, 130px); }
 .seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; padding: 3px; background: var(--sheet); flex-wrap: wrap; }
 .seg button { font: 600 0.88rem/1 var(--body); border: 0; background: transparent; color: var(--ink-2); padding: 8px 13px; border-radius: 999px; cursor: pointer; }
 .seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
@@ -191,6 +208,7 @@ footer { padding-block: 26px 50px; color: var(--ink-3); font-size: 0.85rem; disp
 <div id="tip" role="tooltip"></div>
 
 <header class="wrap hero">
+  <div class="marca"><img class="logo-claro " src="marca/jazz-claro.png" alt="Professor Jazz · Professor de Matemática" height="64"><img class="logo-escuro " src="marca/jazz-escuro.png" alt="Professor Jazz · Professor de Matemática" height="64"></div>
   <span class="tarja"><i></i>Enem 2025 · Caderno amarelo · 1ª aplicação, reaplicação e Belém</span>
   <h1>Raio-X da TRI na prova amarela</h1>
   <p>Por que alunos com o mesmo número de acertos tiram notas tão diferentes, o que custa errar uma única questão e quais itens separam de verdade quem sabe de quem chutou. Os dados são os microdados oficiais do INEP, de todos os candidatos que fizeram o caderno amarelo.</p>
@@ -198,11 +216,13 @@ footer { padding-block: 26px 50px; color: var(--ink-3); font-size: 0.85rem; disp
 
 <nav class="barra" aria-label="Escolha da prova">
   <div class="wrap">
+    <img class="logo-claro mini" src="marca/jazz-claro.png" alt="Professor Jazz · Professor de Matemática" height="28"><img class="logo-escuro mini" src="marca/jazz-escuro.png" alt="Professor Jazz · Professor de Matemática" height="28">
     <span class="rot">Área</span>
     <div class="seg" id="segArea"></div>
     <span class="rot">Aplicação</span>
     <div class="seg" id="segAp"></div>
   </div>
+  <div class="wrap menu" id="menuSec" aria-label="Ir para a pergunta"></div>
 </nav>
 
 <main class="wrap">
@@ -399,6 +419,7 @@ footer { padding-block: 26px 50px; color: var(--ink-3); font-size: 0.85rem; disp
 
 <footer class="wrap">
   <p><a href="raio-x-tri-enem-2025.pdf" download>Baixar o relatório completo em PDF</a></p>
+  <p class="assina"><img class="logo-claro " src="marca/jazz-claro.png" alt="Professor Jazz · Professor de Matemática" height="40"><img class="logo-escuro " src="marca/jazz-escuro.png" alt="Professor Jazz · Professor de Matemática" height="40"><span>Análise e material didático do <b>Professor Jazz</b>, professor de Matemática. Uso em sala com os créditos.</span></p>
   <p><b>Fonte:</b> INEP, Microdados do Enem 2025 (RESULTADOS_2025 e ITENS_PROVA_2025). Caderno amarelo: 1ª aplicação, provas 1460 (LC), 1448 (CH), 1484 (CN) e 1472 (MT); reaplicação, provas 1550, 1540, 1570 e 1560; Belém, Ananindeua e Marituba (COP30), provas 1530, 1521, 1512 e 1503 em ITENS_PROVA.</p>
   <p><b>Belém tem duas numerações.</b> Em RESULTADOS, os alunos de Belém aparecem com códigos de prova próprios (LC 1596, CH 1584, CN 1620, MT 1608), que não existem em ITENS_PROVA. Os parâmetros estão na família 1499–1538 de ITENS_PROVA. Ligamos as duas numerações comparando o gabarito: o TX_GABARITO de cada código de RESULTADOS bate 100% com o gabarito do código correspondente em ITENS_PROVA. Para Belém não temos os cadernos em PDF, então a tabela não mostra o início do enunciado.</p>
   <p><b>Limites dos dados:</b> o INEP retirou dos microdados os alunos das provas 1540 e 1550 (reaplicação de CH e LC) por serem poucos, então para elas só há parâmetros dos itens. A reaplicação de CN e MT tem 168 alunos no caderno amarelo, poucos demais para medir o preço de cada erro. Questões anuladas pelo INEP (CN 115, 121 e 127; MT 176 e 178; CH 54 da reaplicação) não contam como acerto. Em Linguagens, as questões 1 a 5 de inglês e de espanhol são itens diferentes: as estatísticas de cada uma usam só os alunos daquela língua. Os gráficos do preço do erro mostram a versão em inglês; os números do espanhol estão na tabela completa.</p>
@@ -420,6 +441,9 @@ const st = { area: 'MT', ap: 'P1' };
 try { const s = JSON.parse(localStorage.getItem('raiox') || '{}'); if (s.area) st.area = s.area; if (s.ap) st.ap = s.ap; } catch (e) {}
 const fmt = (v, d = 1) => v == null || isNaN(v) ? '—' : Number(v).toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d });
 const fint = v => Number(v).toLocaleString('pt-BR');
+// preço do erro em palavras: nota de quem acertou − nota de quem errou, com o mesmo nº de acertos
+const custoCurto = v => v == null ? '—' : v >= 0.05 ? `perdeu ${fmt(v)} pts` : v <= -0.05 ? `não perdeu (ficou ${fmt(-v)} pts à frente)` : 'não perdeu';
+const LEG_CUSTO = '<b>Como ler o preço do erro:</b> comparamos alunos com o mesmo número de acertos. "Perdeu X pts" é quanto quem errou a questão ficou abaixo de quem acertou. "Não perdeu" quer dizer que quem errou ficou até à frente: com o mesmo total, ele acertou outra questão no lugar, que valeu mais.';
 const NS = 'http://www.w3.org/2000/svg';
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -608,7 +632,7 @@ function s4() {
   const amax = Math.max(5, Math.ceil(Math.max(...val.map(i => i.a)))); const y = lin(0, amax, H - m.b, m.t); eixoY(s, y, ticks(0, amax, 5), m.l, W - m.r, v => fmt(v, 0));
   const bw = (x(1) - x(0)) - 2;
   its.forEach((it, k) => { const x0 = x(k) + 1; if (it.a == null || it.anulado) return; const b = bar(s, x0, y(0), bw, y(it.a), acor(it.a));
-    hover(b, `<b>Questão ${it.questao}${it.lingua ? ' (' + it.lingua + ')' : ''}</b><br>a = <b>${fmt(it.a, 2)}</b> · dificuldade ${fmt(it.b_enem, 0)} (${it.faixa})<br>H${it.habilidade}${it.custo_erro_35mais != null ? `<br>preço do erro (35+): <b>${fmt(it.custo_erro_35mais)} pts</b>` : ''}`);
+    hover(b, `<b>Questão ${it.questao}${it.lingua ? ' (' + it.lingua + ')' : ''}</b><br>a = <b>${fmt(it.a, 2)}</b> · dificuldade ${fmt(it.b_enem, 0)} (${it.faixa})<br>H${it.habilidade}${it.custo_erro_35mais != null ? `<br>quem fez 35+ e errou: <b>${custoCurto(it.custo_erro_35mais)}</b>` : ''}`);
     if (n <= 50 && k % 2 === 0) el(s, 'text', { x: x0 + bw / 2, y: H - m.b + 14, 'text-anchor': 'middle', style: 'font-size:9px' }, it.questao); });
   el(s, 'text', { x: (m.l + W - m.r) / 2, y: H - 6, 'text-anchor': 'middle' }, 'Número da questão');
   document.getElementById('s4c').replaceChildren(s);
@@ -624,14 +648,15 @@ function disp(id, D, kx, lx, fx) {
   el(s, 'line', { x1: m.l, x2: W - m.r, y1: y(0), y2: y(0), stroke: 'var(--ink-3)' });
   ticks(xmn, xmx, 5).forEach(t => el(s, 'text', { x: x(t), y: H - m.b + 16, 'text-anchor': 'middle' }, fx(t)));
   el(s, 'text', { x: (m.l + W - m.r) / 2, y: H - 6, 'text-anchor': 'middle' }, lx);
-  el(s, 'text', { x: m.l + 4, y: m.t + 10, class: 'tit' }, 'pontos perdidos ↑');
+  el(s, 'text', { x: m.l + 4, y: m.t + 10, class: 'tit' }, 'quem errou perdeu (pts) ↑');
+  if (ymn < 0) el(s, 'text', { x: W - m.r - 4, y: y(0) + 14, 'text-anchor': 'end' }, 'abaixo de 0: quem errou não perdeu');
   const r = corr(xs, D.map(d => d.custo));
   // reta de tendência
   const n = D.length, mxv = xs.reduce((a, b) => a + b) / n, myv = D.reduce((a, d) => a + d.custo, 0) / n; let num = 0, den = 0; D.forEach(d => { num += (d[kx] - mxv) * (d.custo - myv); den += (d[kx] - mxv) ** 2; }); const sl = num / den;
   el(s, 'line', { x1: x(xmn), x2: x(xmx), y1: y(myv + sl * (xmn - mxv)), y2: y(myv + sl * (xmx - mxv)), stroke: 'var(--ink-3)', 'stroke-dasharray': '4 4' });
   const emax = Math.max(...D.map(d => d.erros_35mais));
   [...D].sort((a, b) => b.erros_35mais - a.erros_35mais).forEach(d => { const c = el(s, 'circle', { cx: x(d[kx]), cy: y(d.custo), r: 4 + 8 * Math.sqrt(d.erros_35mais / emax), fill: acor(d.a), 'fill-opacity': .85, stroke: 'var(--sheet)', 'stroke-width': 2 });
-    hover(c, `<b>Questão ${d.questao}</b><br>a = ${fmt(d.a, 2)} · dificuldade ${fmt(d.b_enem, 0)}<br>preço do erro: <b>${fmt(d.custo_erro_35mais)} pts</b><br>${fint(d.erros_35mais)} alunos do grupo 35+ erraram (${fmt(100 - d.pct_acerto_35mais, 1)}%)`); });
+    hover(c, `<b>Questão ${d.questao}</b><br>a = ${fmt(d.a, 2)} · dificuldade ${fmt(d.b_enem, 0)}<br>quem errou: <b>${custoCurto(d.custo_erro_35mais)}</b><br>${fint(d.erros_35mais)} alunos do grupo 35+ erraram (${fmt(100 - d.pct_acerto_35mais, 1)}%)`); });
   D.filter(d => d.custo >= [...D].sort((a, b) => b.custo - a.custo)[2].custo).forEach(d => { const dir = x(d[kx]) > W - 60; el(s, 'text', { x: x(d[kx]) + (dir ? -12 : 12), y: y(d.custo) + 4, class: 'tit', 'text-anchor': dir ? 'end' : 'start' }, 'Q' + d.questao); });
   document.getElementById(id).replaceChildren(s); return r;
 }
@@ -644,14 +669,14 @@ function s5() {
   const rb_ = disp('s5c2', D, 'b_enem', 'Dificuldade b (régua do Enem)', v => fmt(v, 0));
   const top = [...D].sort((a, b) => b.custo - a.custo);
   box('s5t').textContent = `${nomeArea(st.area)}: entre os ${fint(p.n_topo)} alunos com 35+ acertos, errar a Q${top[0].questao} custou ${fmt(top[0].custo)} pontos`;
-  box('s5k').innerHTML = [[fint(p.n_topo), 'alunos com 35 acertos ou mais'], [fmt(ra_, 2), 'correlação entre o preço do erro e o parâmetro a'], [fmt(rb_, 2), 'correlação entre o preço do erro e a dificuldade b'], [fmt(top[0].custo) + ' pts', `maior preço de um único erro (Q${top[0].questao}, a = ${fmt(top[0].a, 2)})`]]
+  box('s5k').innerHTML = [[fint(p.n_topo), 'alunos com 35 acertos ou mais'], [fmt(ra_, 2), 'correlação entre o preço do erro e o parâmetro a'], [fmt(rb_, 2), 'correlação entre o preço do erro e a dificuldade b'], ['perdeu ' + fmt(top[0].custo) + ' pts', `quem errou a Q${top[0].questao} (a = ${fmt(top[0].a, 2)}), a maior perda por um único erro`]]
     .map(([v, l]) => `<div class="kpi"><span class="v num">${v}</span><span class="l">${l}</span></div>`).join('');
   const hiA = D.filter(d => d.a >= 3), loA = D.filter(d => d.a < 1.5); const mean = L => L.length ? L.reduce((s, d) => s + d.custo, 0) / L.length : null;
-  box('s5leia').innerHTML = `<p><b>O que o gráfico mostra.</b> A correlação com o <b>a</b> é ${fmt(ra_, 2)}${Math.abs(ra_) > .7 ? ', muito forte' : ''}; com o <b>b</b>, ${fmt(rb_, 2)}. Para quem está no topo, o que pesa no bolso é errar uma questão <b>muito discriminativa</b>, mais do que errar uma questão difícil. Errar uma questão de a ≥ 3 custou em média <b>${fmt(mean(hiA))} pontos</b>; uma de a &lt; 1,5, só <b>${fmt(mean(loA))}</b>.</p>
-    <p><b>E os valores negativos?</b> Com o mesmo número de acertos, quem errou uma questão acertou outra no lugar. Se a questão errada tem a baixo, normalmente a que foi acertada no lugar tem a mais alto, e isso rende mais nota. Por isso errar uma questão pouco discriminativa pode sair "de graça" ou até render nota relativa: o preço é sempre comparado com errar outra questão qualquer.</p>
+  box('s5leia').innerHTML = `<p><b>O que o gráfico mostra.</b> A correlação com o <b>a</b> é ${fmt(ra_, 2)}${Math.abs(ra_) > .7 ? ', muito forte' : ''}; com o <b>b</b>, ${fmt(rb_, 2)}. Para quem está no topo, o que pesa no bolso é errar uma questão <b>muito discriminativa</b>, mais do que errar uma questão difícil. Quem errou uma questão de a ≥ 3 <b>${custoCurto(mean(hiA))}</b> em média; quem errou uma de a &lt; 1,5, <b>${custoCurto(mean(loA))}</b>.</p>
+    <p><b>E quando quem errou "não perdeu"?</b> Com o mesmo número de acertos, quem errou uma questão acertou outra no lugar. Se a questão errada tem a baixo, normalmente a que foi acertada no lugar tem a mais alto, e isso rende mais nota. Errar nunca dá ponto: o que acontece é que errar aquela questão custa menos que errar outra qualquer.</p>
     <p><b>Por quê?</b> A TRI entende que um item de a alto é um "filtro" confiável: se o aluno de nota alta erra justamente ali, o modelo conclui que talvez ele não seja tão bom quanto os outros acertos sugerem. Já errar uma questão difícil de a baixo é visto como algo esperado e quase não pesa. O tamanho da bolinha mostra quantos alunos do grupo erraram.</p>`;
-  box('s5tab').innerHTML = `<table><thead><tr><th>Questão</th><th class="n">a</th><th class="n">b (Enem)</th><th>Faixa</th><th>Hab.</th><th class="n">% do 35+ que errou</th><th class="n">Preço do erro</th></tr></thead><tbody>${top.slice(0, 12).map(d =>
-    `<tr><td><b>Q${d.questao}</b><div class="enun">${esc((d.enunciado || '').slice(0, 110))}…</div></td><td class="n">${fmt(d.a, 2)}</td><td class="n">${fmt(d.b_enem, 0)}</td><td><span class="chip" style="background:${fcor(d.faixa)};color:${['Difícil', 'Muito difícil'].includes(d.faixa) ? '#fff' : '#0e2f66'}">${d.faixa}</span></td><td>H${d.habilidade}</td><td class="n">${fmt(100 - d.pct_acerto_35mais, 1)}%</td><td class="n"><b>${fmt(d.custo)} pts</b></td></tr>`).join('')}</tbody></table>`;
+  box('s5tab').innerHTML = `<table><thead><tr><th>Questão</th><th class="n">a</th><th class="n">b (Enem)</th><th>Faixa</th><th>Hab.</th><th class="n">% do 35+ que errou</th><th class="n">Quem errou</th></tr></thead><tbody>${top.slice(0, 12).map(d =>
+    `<tr><td><b>Q${d.questao}</b><div class="enun">${esc((d.enunciado || '').slice(0, 110))}…</div></td><td class="n">${fmt(d.a, 2)}</td><td class="n">${fmt(d.b_enem, 0)}</td><td><span class="chip" style="background:${fcor(d.faixa)};color:${['Difícil', 'Muito difícil'].includes(d.faixa) ? '#fff' : '#0e2f66'}">${d.faixa}</span></td><td>H${d.habilidade}</td><td class="n">${fmt(100 - d.pct_acerto_35mais, 1)}%</td><td class="n"><b>${custoCurto(d.custo)}</b></td></tr>`).join('')}</tbody></table><p class="small muted">${LEG_CUSTO}</p>`;
 }
 
 // ---------- seção 6
@@ -670,12 +695,12 @@ function s6() {
     hover(b, `<b>Questão ${e.questao}${e.lingua ? ' (' + e.lingua + ')' : ''}</b><br>${e.n} alunos erraram só ela<br>nota: ${fmt(e.nota_media)} · ${fmt(e.perda)} pts abaixo de quem gabaritou<br>a = ${fmt(e.a, 2)} · dificuldade ${fmt(e.b_enem, 0)} · H${e.hab}${it ? '<br><i>' + esc((it.enunciado || '').slice(0, 120)) + '…</i>' : ''}`);
     el(s, 'text', { x: x(e.n) + 6, y: yy + rowH / 2 + 4, class: 'num' }, e.n);
     el(s, 'text', { x: W - m.r + 12, y: yy + rowH / 2 + 4, class: 'num' }, fmt(e.nota_media));
-    el(s, 'text', { x: W - m.r + 80, y: yy + rowH / 2 + 4, class: 'num', style: 'fill:var(--bad);font-weight:600' }, '−' + fmt(e.perda));
+    el(s, 'text', { x: W - m.r + 80, y: yy + rowH / 2 + 4, class: 'num', style: 'fill:var(--bad);font-weight:600' }, 'perdeu ' + fmt(e.perda));
     el(s, 'text', { x: W - m.r + 150, y: yy + rowH / 2 + 4, class: 'num' }, fmt(e.a, 2)); });
   box('s6c').replaceChildren(s);
   const pe = [...E].sort((a, b) => b.perda - a.perda), r = corr(E.map(e => e.a), E.map(e => e.perda));
   box('s6leia').innerHTML = `<p><b>Gabaritar valeu ${fmt(p.nota_max)}</b> (${fint(p.n_perfeito)} alunos). Quem errou só uma ficou entre <b>${fmt(Math.min(...E.map(e => e.nota_media)))}</b> e <b>${fmt(Math.max(...E.map(e => e.nota_media)))}</b>, dependendo de qual questão errou.</p>
-    <p>O erro mais caro foi na <b>Q${pe[0].questao}</b> (−${fmt(pe[0].perda)} pts; a = ${fmt(pe[0].a, 2)}). O mais barato foi na <b>Q${pe[pe.length - 1].questao}</b> (−${fmt(pe[pe.length - 1].perda)} pts; a = ${fmt(pe[pe.length - 1].a, 2)}). A correlação entre os pontos perdidos e o parâmetro a é de <b>${fmt(r, 2)}</b>: de novo, a discriminação manda.</p>
+    <p>O erro mais caro foi na <b>Q${pe[0].questao}</b> (perdeu ${fmt(pe[0].perda)} pts; a = ${fmt(pe[0].a, 2)}). O mais barato foi na <b>Q${pe[pe.length - 1].questao}</b> (perdeu ${fmt(pe[pe.length - 1].perda)} pts; a = ${fmt(pe[pe.length - 1].a, 2)}). A correlação entre os pontos perdidos e o parâmetro a é de <b>${fmt(r, 2)}</b>: de novo, a discriminação manda.</p>
     ${E.length && E[0].b_enem ? `<p>A questão que mais "derrubou" alunos quase perfeitos foi a Q${E[0].questao} (dificuldade ${fmt(E[0].b_enem, 0)}, H${E[0].hab}). ${E[0].a < 1.5 ? 'Como ela tem a baixo, o erro custou pouco.' : 'Como ela tem a alto, o erro custou caro.'}</p>` : ''}`;
 }
 
@@ -701,7 +726,7 @@ function s7() {
   box('s7ficha').innerHTML = `<h3>Questão ${i.questao}${i.lingua ? ` (${i.lingua.toLowerCase()})` : ''} ${faixa}${i.gabarito ? ` <span class="chip" style="border:1px solid var(--rule)">Gabarito ${esc(i.gabarito)}</span>` : ''}</h3>
     ${i.anulado && i.motivo ? `<p class="small muted">Motivo da anulação: ${esc(i.motivo)}</p>` : ''}
     <div class="kpis">${[[fmt(i.b_enem, 1), 'dificuldade (b) na escala Enem'], [fmt(i.a, 2), 'discriminação (a)'], [fmt(i.c, 2), 'acerto ao acaso (c)'], [pct(i.pct_acerto_geral), 'de acerto entre todos os alunos'],
-      [pct(i.pct_acerto_35mais), 'de acerto entre quem fez 35+'], [i.custo_erro_35mais == null ? '—' : fmt(i.custo_erro_35mais, 1) + ' pts', 'preço do erro para quem fez 35+']]
+      [pct(i.pct_acerto_35mais), 'de acerto entre quem fez 35+'], [i.custo_erro_35mais == null ? '—' : i.custo_erro_35mais >= 0.05 ? `perdeu ${fmt(i.custo_erro_35mais)} pts` : 'não perdeu', i.custo_erro_35mais != null && i.custo_erro_35mais <= -0.05 ? `quem fez 35+ e errou ficou ${fmt(-i.custo_erro_35mais)} pts à frente de quem acertou (acertou outra no lugar)` : 'quem fez 35+ e errou esta questão, em relação a quem acertou']]
       .map(([v, l]) => `<div class="kpi"><span class="v num">${v}</span><span class="l">${l}</span></div>`).join('')}</div>
     <p class="hab">${i.habilidade ? `<b>H${i.habilidade}</b>${hab ? ` · ${esc(hab)}` : ''}` : 'Habilidade não informada.'}${i.competencia ? `<br><b>Competência ${i.competencia}</b>${comp ? ` · ${esc(comp)}` : ''}` : ''}</p>`;
   const P = (R.prints || {})[st.q] || {};
@@ -803,10 +828,11 @@ function virada() {
   linhas('viradaC', 'viradaLeg', [['Peso do a (discriminação)', 'peso_a', 'var(--s1)'], ['Peso do b (dificuldade)', 'peso_b', 'var(--s2)']], 0, 100, t => fmt(t, 0) + '%', true);
   const vals = N.flatMap(n => [n.faceis, n.a_alto, n.a_baixo]).filter(z => z != null);
   const lo = Math.floor(Math.min(...vals) / 5) * 5, hi = Math.ceil(Math.max(...vals) / 5) * 5;
-  linhas('viradaC2', 'viradaLeg2', [['Errar uma questão fácil', 'faceis', 'var(--b-facil)'], ['Errar uma questão de a muito alto (3 ou mais)', 'a_alto', 'var(--f5)'], ['Errar uma questão de a baixo (menos de 1,5)', 'a_baixo', 'var(--ink-3)', true]], lo, hi, t => (t > 0 ? '+' : '') + fmt(t, 0) + (Math.abs(t) === 1 ? ' pt' : ' pts'), true);
+  linhas('viradaC2', 'viradaLeg2', [['Errar uma questão fácil', 'faceis', 'var(--b-facil)'], ['Errar uma questão de a muito alto (3 ou mais)', 'a_alto', 'var(--f5)'], ['Errar uma questão de a baixo (menos de 1,5)', 'a_baixo', 'var(--ink-3)', true]], lo, hi, t => fmt(t, 0) + (Math.abs(t) === 1 ? ' pt' : ' pts'), true);
   const nTop = em(Math.min(40, N[N.length - 1].k));
-  box('viradaLeia').innerHTML = `<p><b>Na parte de baixo da prova</b> (até uns ${v - 5} acertos), quem decide o preço do erro é a <b>dificuldade</b>. Errar uma questão fácil custa caro (com 15 acertos, ${n15.faceis > 0 ? '+' : ''}${fmt(n15.faceis)} pontos em relação ao normal), porque a TRI lê isso como incoerência. Já errar uma questão de a alto quase não pesa: para quem acerta pouco, errá-la é o esperado.</p>
-    <p><b>A partir de ${v} acertos o jogo vira.</b> Quase todo mundo nesse nível já acerta as fáceis, e o que separa um aluno do outro passa a ser a <b>discriminação</b> das questões que ele errou. Com ${nTop.k} acertos, errar uma questão de a muito alto custa <b>${nTop.a_alto != null ? (nTop.a_alto > 0 ? '+' : '') + fmt(nTop.a_alto) : '—'} pontos</b>, e errar uma de a baixo, <b>${fmt(nTop.a_baixo)}</b>.</p>
+  box('viradaLeia').innerHTML = `<p><b>Na parte de baixo da prova</b> (até uns ${v - 5} acertos), quem decide o preço do erro é a <b>dificuldade</b>. Errar uma questão fácil custa caro (com 15 acertos, quem errou uma fácil <b>${custoCurto(n15.faceis)}</b>), porque a TRI lê isso como incoerência. Já errar uma questão de a alto quase não pesa: para quem acerta pouco, errá-la é o esperado.</p>
+    <p><b>A partir de ${v} acertos o jogo vira.</b> Quase todo mundo nesse nível já acerta as fáceis, e o que separa um aluno do outro passa a ser a <b>discriminação</b> das questões que ele errou. Com ${nTop.k} acertos, quem errou uma questão de a muito alto <b>${custoCurto(nTop.a_alto)}</b>; quem errou uma de a baixo, <b>${custoCurto(nTop.a_baixo)}</b>.</p>
+    <p class="small muted">No gráfico de baixo, acima de 0 quer dizer que quem errou perdeu pontos; abaixo de 0, que quem errou não perdeu (com o mesmo total, acertou outra questão que valeu mais).</p>
     <p class="small muted"><b>Para o professor:</b> para o aluno que já passa de ${v} acertos, revisar o conteúdo das questões de a alto rende mais nota do que treinar questões só "difíceis".</p>`;
   box('viradaTab').innerHTML = `<table><thead><tr><th>Área</th><th class="n">Virada</th><th class="n">15 acertos: b × a</th><th class="n">25 acertos: b × a</th><th class="n">35 acertos: b × a</th></tr></thead><tbody>${['LC', 'CH', 'CN', 'MT'].map(a => { const Q = R.peso[a], f = k => Q.niveis.find(d => d.k === k);
     const c = k => { const d = f(k); return d ? `${fmt(d.peso_b, 0)}% × <b>${fmt(d.peso_a, 0)}%</b>` : '—'; };
@@ -871,7 +897,7 @@ function ranking() {
     return `<div class="rk" style="border-left-color:${cor}"><span class="pos">${k + 1}º</span>
       <span class="qq">Q${i.questao}${i.lingua ? `<small>${i.lingua}</small>` : '<small>&nbsp;</small>'}</span>
       <div class="meio"><div class="barra-v"><span class="small muted" style="min-width:8.5ch">${porB ? 'dificuldade' : 'discriminação'}</span><div class="medidor"><i style="width:${w}%;background:${porB ? cor : 'var(--s1)'}"></i></div><b>${porB ? fmt(v, 0) : fmt(v, 2)}</b></div>
-        <div class="det"><span style="color:${cor};font-weight:700">${i.faixa} (${nb})</span><span>${porB ? `a = ${fmt(i.a, 2)}` : `b = ${fmt(i.b_enem, 0)}`}</span><span>H${i.habilidade} · C${i.competencia}</span>${i.pct_acerto_geral != null ? `<span>${fmt(i.pct_acerto_geral, 1)}% acertaram</span>` : ''}${i.custo_erro_35mais != null ? `<span>preço do erro (35+): ${fmt(i.custo_erro_35mais)} pts</span>` : ''}</div>
+        <div class="det"><span style="color:${cor};font-weight:700">${i.faixa} (${nb})</span><span>${porB ? `a = ${fmt(i.a, 2)}` : `b = ${fmt(i.b_enem, 0)}`}</span><span>H${i.habilidade} · C${i.competencia}</span>${i.pct_acerto_geral != null ? `<span>${fmt(i.pct_acerto_geral, 1)}% acertaram</span>` : ''}${i.custo_erro_35mais != null ? `<span>35+ que errou: ${custoCurto(i.custo_erro_35mais)}</span>` : ''}</div>
         ${i.enunciado ? `<div class="txt" title="${esc(i.enunciado)}">${esc(i.enunciado.slice(0, 160))}</div>` : ''}</div></div>`; }).join('');
   box('rankNota').innerHTML = (anul.length ? `Anuladas pelo INEP (fora do ranking): ${anul.map(i => 'Q' + i.questao).join(', ')}. ` : '') +
     (st.area === 'LC' ? 'Em Linguagens, as questões 1 a 5 aparecem nas versões em inglês e em espanhol. ' : '') + 'Passe o mouse sobre o enunciado para ler o trecho inteiro.';
@@ -916,12 +942,27 @@ function redacao() {
     : `<p class="small"><b>Para o professor:</b> no topo, a redação se decide na <b>C1</b>. Revisão gramatical fina (pontuação, concordância, regência, crase) vale mais que mexer na estrutura do texto, que esses alunos já dominam (C2, C4 e C5 quase sempre em 200).</p>`;
   box('redLeia').innerHTML = leia;
   box('redTab').innerHTML = `<table><thead><tr><th>Competência</th>${GR.map(([k]) => `<th class="n">${RD.grupos[k].nome}<br><span style="text-transform:none;letter-spacing:0">${fint(RD.grupos[k].n)} alunos</span></th>`).join('')}</tr></thead><tbody>${COMPS.map(([c, nome], i) =>
-    `<tr><td><b>${c}</b> · ${nome}</td>${GR.map(([k]) => { const G = RD.grupos[k], mx = G.perda.indexOf(Math.max(...G.perda)); return `<td class="n" ${i === mx ? 'style="color:var(--b-dificil);font-weight:800"' : ''}>−${fmt(G.perda[i])} <span class="muted small">(${fmt(G.pct200[i], 0)}% com 200)</span></td>`; }).join('')}</tr>`).join('')}</tbody></table>`;
+    `<tr><td><b>${c}</b> · ${nome}</td>${GR.map(([k]) => { const G = RD.grupos[k], mx = G.perda.indexOf(Math.max(...G.perda)); return `<td class="n" ${i === mx ? 'style="color:var(--b-dificil);font-weight:800"' : ''}>perdeu ${fmt(G.perda[i])} <span class="muted small">(${fmt(G.pct200[i], 0)}% com 200)</span></td>`; }).join('')}</tr>`).join('')}</tbody></table>`;
   const tot = Object.values(RD.status).reduce((a, b) => a + b, 0);
   box('redStatus').innerHTML = `<table><thead><tr><th>Situação</th><th class="n">Alunos</th><th class="n">%</th></tr></thead><tbody>${Object.entries(RD.status).sort((a, b) => b[1] - a[1]).map(([k, n]) => `<tr><td>${k}</td><td class="n">${fint(n)}</td><td class="n">${fmt(n / tot * 100, 1)}%</td></tr>`).join('')}</tbody></table>`;
 }
 function render() { const red = st.area === 'RED'; document.body.classList.toggle('modo-red', red);
   if (red) redacao(); else { s1(); coer(); s2(); s3(); s4(); ranking(); virada(); s5(); s6(); topo(); s7(); } }
+// ---------- menu de seções: pula para a pergunta mantendo a área e a aplicação escolhidas
+const SECOES = [['tri', '', 'TRI'], ['s1', '1', 'Acertos × nota'], ['coer', '1b', 'Gêmeos'], ['s2', '2', 'Dificuldade'], ['s3', '3', 'Habilidades'], ['s4', '4', 'Parâmetro a'],
+  ['ranking', '', 'Ranking'], ['virada', '4b', 'Virada do a'], ['s5', '5', '35+ acertos'], ['s6', '6', 'Errou só uma'], ['topo', '6b', 'Gêmeos do topo'], ['s7', '', 'Questão a questão']];
+(function menu() {
+  const nav = document.querySelector('.barra'), box = document.getElementById('menuSec');
+  box.innerHTML = '<span class="rot" style="flex:none">Ir para</span>' + SECOES.map(([id, n, l]) => `<a href="#${id}" data-id="${id}">${n ? `<b>${n}</b>` : ''}${l}</a>`).join('');
+  const altura = () => document.documentElement.style.setProperty('--hbar', (nav.offsetHeight + 8) + 'px');
+  altura(); window.addEventListener('resize', altura);
+  box.querySelectorAll('a').forEach(a => a.onclick = e => { e.preventDefault(); altura(); document.getElementById(a.dataset.id).scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+  const marca = id => box.querySelectorAll('a').forEach(a => { const on = a.dataset.id === id; a.classList.toggle('on', on); if (on) { const x = a.offsetLeft - box.offsetLeft; if (x < box.scrollLeft || x + a.offsetWidth > box.scrollLeft + box.clientWidth) box.scrollTo({ left: x - 40 }); } });
+  let atual = null;
+  window.addEventListener('scroll', () => { const lim = nav.offsetHeight + 40; let id = SECOES[0][0];
+    for (const [s] of SECOES) { const el = document.getElementById(s); if (el && el.getBoundingClientRect().top <= lim) id = s; }
+    if (id !== atual) { atual = id; marca(id); } }, { passive: true });
+})();
 montaSeg('segArea', ABAS, 'area'); montaSeg('segAp', APS, 'ap');
 ra.oninput = rb.oninput = cci; rk.oninput = par; cci(); render();
 </script>
