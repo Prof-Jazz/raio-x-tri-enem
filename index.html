@@ -76,6 +76,30 @@ header.hero { --fh: clamp(280px, 31vw, 400px); padding-top: 24px; display: grid;
 .tarja i { width: 34px; height: 14px; background: var(--amarela); border-radius: 2px; display: inline-block; }
 .hero p { font-size: 1.08rem; color: var(--ink-2); }
 
+.tri-ind { display: flex; flex-wrap: wrap; gap: 6px; }
+.tri-ind button, .tri-ir { font: 600 0.82rem/1.2 var(--body); border: 1px solid var(--rule); background: var(--paper); color: var(--ink); padding: 7px 12px; border-radius: 999px; cursor: pointer; }
+.tri-bloco { display: grid; gap: 14px; padding-top: 24px; border-top: 1px solid var(--rule); scroll-margin-top: calc(var(--hbar, 60px) + 12px); }
+.tri-duas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start; }
+.tri-txt { display: grid; gap: 12px; }
+.fig-guia { margin: 0; display: grid; gap: 6px; width: 100%; }
+.fig-guia img { width: 100%; height: auto; display: block; background: #fff; border: 1px solid var(--rule); border-radius: 6px; padding: 8px; box-sizing: border-box; }
+.fig-guia figcaption { font-size: 0.8rem; color: var(--ink-3); }
+.tri-passos { margin: 0; padding-left: 1.4em; display: grid; gap: 8px; max-width: 72ch; }
+.tri-qs { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 6px; }
+.tri-qs button { font: 600 0.82rem/1.25 var(--body); border: 1px solid var(--rule); background: var(--paper); color: var(--ink-2); padding: 8px 2px; border-radius: 6px; cursor: pointer; display: grid; justify-items: center; gap: 2px; }
+.tri-qs button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.tri-qs button i { font-style: normal; font-size: 1rem; }
+.tri-faq { display: grid; gap: 8px; }
+.tri-det { border: 1px solid var(--rule); border-radius: 6px; padding: 10px 14px; }
+.tri-det summary { font-weight: 600; cursor: pointer; }
+.tri-det[open] { display: grid; gap: 10px; }
+.tri-det > p, .tri-det > figure { margin-top: 10px; }
+.tri-glos { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 24px; }
+.tri-glos dt { font-weight: 700; } .tri-glos dd { margin: 0; color: var(--ink-2); }
+.tri-form { padding: 10px 12px; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; overflow-x: auto; max-width: none; }
+.tri-fonte { padding-top: 16px; border-top: 1px solid var(--rule); max-width: none; }
+@media (max-width: 900px) { .tri-bloco { scroll-margin-top: calc(var(--hbar, 120px) + 76px); } }
+@media (max-width: 800px) { .tri-duas, .tri-glos { grid-template-columns: minmax(0, 1fr); } .tri-qs { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 main > .folha { display: none; }
 main > .folha.ativa { display: block; }
 body.modo-red main > .folha { display: none; }
@@ -293,22 +317,113 @@ footer { padding-block: 26px 50px; color: var(--ink-3); font-size: 0.85rem; disp
 
 <section class="folha" id="tri">
   <div class="in">
-    <div class="cab"><span class="eyebrow">Antes de tudo · <b>como a TRI enxerga uma questão</b></span>
-      <h2>Cada questão tem três "números de identidade": a, b e c</h2></div>
-    <div class="duas">
-      <div style="display:grid;gap:12px">
-        <p><b>b — dificuldade.</b> É o ponto da régua de notas em que a questão "vira": abaixo dele, o aluno tende a errar; acima, tende a acertar. O INEP publica o b em uma escala com média 0 e desvio 1. Para ler na régua do Enem, usamos: <span class="num">500 + 100 × b</span>. Um b de 1,5 vira <span class="num">650</span>.</p>
-        <p class="small muted">Essa régua é uma convenção didática, usada aqui em toda a análise. A posição exata de uma questão em pontos de nota muda por área: recalculando as notas com os microdados, chegamos a Linguagens 500,0 + 108,1 × b, Humanas 501,5 + 112,3 × b, Natureza 501,2 + 113,1 × b e Matemática 500,0 + 129,6 × b, iguais nos quatro anos. Isso não muda a ordem das questões, as faixas nem as comparações dentro de uma área, mas o valor não deve ser lido como a nota exata do aluno.</p>
-        <p><b>a — discriminação.</b> Mede quanto a questão separa quem domina o assunto de quem não domina. Com a alto, a curva fica íngreme, como um degrau: quem está acima do b acerta, quem está abaixo erra. Por isso errar uma questão de a alto custa muitos pontos.</p>
-        <p><b>c — acerto ao acaso.</b> A chance de acertar no chute, mesmo sem saber o conteúdo (nas provas analisadas, em média de 14% a 18%).</p>
-        <div class="ctl">
-          <label>a <input type="range" id="ra" min="0.4" max="5" step="0.1" value="3.5"><span class="num" id="va"></span></label>
-          <label>b (escala Enem) <input type="range" id="rb" min="400" max="900" step="10" value="650"><span class="num" id="vb"></span></label>
-        </div>
-      </div>
-      <div class="chart livre" id="cci"></div>
+    <div class="cab"><span class="eyebrow">Comece aqui · <b>como a TRI transforma respostas em nota</b></span>
+      <h2>Por que a nota do Enem não é só contar acertos</h2></div>
+    <p>Na escola, costuma ser simples: cada questão vale o mesmo, e quem acerta 6 de 10 tira 6. Mas imagine dois alunos que acertaram 6 questões, não as mesmas. Será que eles sabem a mesma coisa? O Enem usa a <b>Teoria de Resposta ao Item (TRI)</b> para levar essa diferença em conta. Ela olha <b>quais</b> questões a pessoa acertou e errou, e não apenas quantas.</p>
+    <nav class="tri-ind" aria-label="Partes desta seção"><button type="button" data-tri="t1">A régua</button><button type="button" data-tri="t2">Questões e alunos</button><button type="button" data-tri="t3">a, b e c</button><button type="button" data-tri="t4">Coerência</button><button type="button" data-tri="t5">Como sai a nota</button><button type="button" data-tri="t6">Acertos e nota</button><button type="button" data-tri="t7">Da prova ao resultado</button><button type="button" data-tri="t8">Dúvidas comuns</button><button type="button" data-tri="t9">Glossário</button></nav>
+
+    <div class="tri-bloco" id="t1"><h3>1. Medir conhecimento é como usar uma régua</h3>
+      <div class="tri-duas"><div class="tri-txt">
+        <p>Para medir uma distância, usamos uma régua e um padrão, como o centímetro. Só que conhecimento não dá para ver. No Enem, o instrumento de medida é a <b>prova</b>, e o padrão é uma <b>escala</b>, que funciona como uma régua.</p>
+        <p>O resultado dessa medida se chama <b>proficiência</b>, que é simplesmente a nota do participante em cada área. A redação é corrigida de outra forma e não entra nesta explicação.</p>
+      </div><figure class="fig-guia"><img src="guia/fig1.webp" width="1001" height="803" loading="lazy" alt="Ilustração: uma pessoa medindo uma distância com régua e, ao lado, uma régua sobre a cabeça de outra pessoa, com a pergunta como medir a proficiência em Matemática."><figcaption>Figura 1 do guia. Fonte: Inep (2021).</figcaption></figure></div>
     </div>
-    <p class="small muted">A curva cinza é uma questão de mesma dificuldade com a baixo (a = 0,8). Mexa nos controles: quanto maior o a, mais a questão se comporta como um "filtro" exato.</p>
+
+    <div class="tri-bloco" id="t2"><h3>2. Questões e alunos ficam na mesma régua</h3>
+      <p>Esse é o grande diferencial da TRI. Cada área tem a sua régua, e o Inep definiu dois pontos de referência para ela: <b>500</b> é o desempenho médio dos concluintes regulares do ensino médio de 2009, e <b>100</b> é o desvio padrão, uma medida de como as notas deles se espalhavam em torno dessa média. Assim, uma nota 600 fica um desvio padrão acima daquela média.</p>
+      <figure class="fig-guia" style="max-width:760px"><img src="guia/fig2.webp" width="1201" height="385" loading="lazy" alt="Régua amarela com a posição de referência 500 marcada no centro, representando a escala de proficiência."><figcaption>Figura 2 do guia: a régua e o ponto de referência 500. Fonte: Inep (2021).</figcaption></figure>
+      <p>Questões fáceis ficam na parte de baixo da régua, e as difíceis, na parte de cima. O participante também recebe uma posição nela. No exemplo abaixo, o Participante A provavelmente domina as questões 1, 34, 45, 12 e 16, que estão abaixo dele, e não domina a 19 e a 35. O Participante B deve dominar só a 1 e a 34. Por isso, a nota de A é maior.</p>
+      <figure class="fig-guia" style="max-width:760px"><img src="guia/fig3.webp" width="1201" height="557" loading="lazy" alt="Régua com setas indicando, em ordem, questão 1, questão 34, participante B, questão 45, questões 16 e 12, participante A, questão 19 e questão 35."><figcaption>Figura 3 do guia: questões e participantes na mesma escala. Fonte: Inep (2021).</figcaption></figure>
+      <p>Cada ponto da régua também tem um significado pedagógico: ele diz o que costuma dominar quem está naquele nível. O Inep chama isso de <b>mapa de itens</b>. Veja um trecho de Matemática, perto dos 700 pontos:</p>
+      <figure class="fig-guia" style="max-width:760px"><img src="guia/fig7.webp" width="1201" height="430" loading="lazy" alt="Mapa de itens de Matemática com quatro habilidades posicionadas em níveis entre 678,1 e 700,0, como calcular o volume de material de um objeto vazado e calcular probabilidade a partir de tabela de dupla entrada."><figcaption>Figura 7 do guia: mapa de itens de Matemática. Fonte: Inep (2021).</figcaption></figure>
+    </div>
+
+    <div class="tri-bloco" id="t3"><h3>3. Cada questão tem três números de identidade: a, b e c</h3>
+      <div class="tri-duas"><div class="tri-txt">
+        <p><b>b: dificuldade.</b> Quanto maior, mais difícil é a questão. É o ponto da régua em que a questão "vira": abaixo dele, o aluno tende a errar; acima, tende a acertar.</p>
+        <p><b>a: discriminação.</b> Mede o quanto a questão separa quem domina a habilidade de quem não domina. Com a alto, a curva fica íngreme, como um degrau.</p>
+        <p><b>c: acerto casual.</b> É a chance de acertar sem dominar a habilidade (nas provas analisadas aqui, em média de 14% a 18%).</p>
+        <p>Esses valores vêm de pré-testes e formam o perfil de cada questão, desenhado em uma curva. No exemplo do guia, quem tem proficiência 650 tem cerca de <b>85%</b> de chance de acertar aquela questão.</p>
+      </div><figure class="fig-guia"><img src="guia/graf1.webp" width="901" height="596" loading="lazy" alt="Curva em forma de S com a probabilidade de acerto no eixo vertical e a proficiência no horizontal, indicando os parâmetros a, b e c. O Participante A, com proficiência 650, tem probabilidade de cerca de 0,85."><figcaption>Gráfico 1 do guia: curva característica do item. Fonte: Inep (2021).</figcaption></figure></div>
+      <p><b>Experimente:</b> mude a e b e veja o que acontece com a curva.</p>
+      <div class="duas">
+        <div style="display:grid;gap:12px;align-content:start">
+          <div class="ctl">
+            <label>a <input type="range" id="ra" min="0.4" max="5" step="0.1" value="3.5"><span class="num" id="va"></span></label>
+            <label>b (escala Enem) <input type="range" id="rb" min="400" max="900" step="10" value="650"><span class="num" id="vb"></span></label>
+          </div>
+          <p class="small muted">A curva cinza é uma questão de mesma dificuldade com a baixo (a = 0,8). Quanto maior o a, mais a questão se comporta como um "filtro" exato. Por isso, errar uma questão de a alto costuma custar muitos pontos.</p>
+          <p class="small muted">Para ler o b na régua do Enem, este site usa <span class="num">500 + 100 × b</span>: um b de 1,5 vira <span class="num">650</span>. No mapa de itens, o Inep posiciona a questão um pouco acima do b, onde a chance de acerto fica perto de 65%.</p>
+          <p class="small muted">Essa régua é uma convenção didática, usada aqui em toda a análise. A posição exata de uma questão em pontos de nota muda por área: recalculando as notas com os microdados, chegamos a Linguagens 500,0 + 108,1 × b, Humanas 501,5 + 112,3 × b, Natureza 501,2 + 113,1 × b e Matemática 500,0 + 129,6 × b, iguais nos quatro anos. Isso não muda a ordem das questões, as faixas nem as comparações dentro de uma área, mas o valor não deve ser lido como a nota exata do aluno.</p>
+        </div>
+        <div class="chart livre" id="cci"></div>
+      </div>
+    </div>
+
+    <div class="tri-bloco" id="t4"><h3>4. A coerência: por que os mesmos acertos podem dar notas diferentes</h3>
+      <div class="tri-duas"><div class="tri-txt">
+        <p>O conhecimento se acumula: habilidades mais complexas pedem o domínio das mais simples. É como numa corrida com barreiras cada vez mais altas. Quem salta 80 cm deve conseguir saltar as barreiras menores.</p>
+        <p>Por isso, o esperado é que quem acerta questões difíceis também acerte as fáceis. Quando isso não acontece, os acertos somam menos à nota.</p>
+      </div><figure class="fig-guia"><img src="guia/fig9.webp" width="1101" height="935" loading="lazy" alt="Ilustração: um atleta diante de barreiras cada vez mais altas e, abaixo, um estudante diante de itens cada vez mais difíceis."><figcaption>Figura 9 do guia. Fonte: Inep (2021).</figcaption></figure></div>
+      <div class="tri-duas"><figure class="fig-guia" style="max-width:420px"><img src="guia/fig8.webp" width="801" height="1303" loading="lazy" alt="Régua vertical do fácil ao difícil com as respostas a 10 questões. O Participante A, nota 480, acerta sobretudo as mais fáceis e erra as mais difíceis. O Participante B, nota 310, acerta as mais difíceis e erra várias fáceis. Ambos acertam 5."><figcaption>Figura 8 do guia: dois participantes, cinco acertos cada. Fonte: Inep (2021).</figcaption></figure><div class="tri-txt">
+        <p>Na figura, os dois participantes acertaram <b>5 de 10</b>. O Participante A acertou as mais fáceis e passou a errar depois de certo nível, como se espera: ficou com <b>480</b>. O Participante B acertou as mais difíceis e errou as fáceis: ficou com <b>310</b>.</p>
+        <div class="leia"><p><b>Acertar "no chute" não tira pontos.</b> Esse acerto só vale menos do que valeria dentro de um padrão coerente. Uma questão certa sempre aumenta a nota, e uma em branco é corrigida como errada. Então, é sempre melhor responder.</p></div>
+        <p class="small muted">Essa ideia é o que a seção "Alunos gêmeos" mede nos dados reais do Enem, comparando alunos com o mesmo número de acertos.</p>
+      </div></div>
+    </div>
+
+    <div class="tri-bloco" id="t5"><h3>5. Como sai o número da nota</h3>
+      <p>Não existe uma conta simples de somar pontos. O método usado no Enem se chama <b>EAP</b> e pode ser resumido em três passos:</p>
+      <ol class="tri-passos">
+        <li><b>Testa todas as notas possíveis.</b> Para cada uma, calcula a chance de alguém naquele nível dar exatamente aquelas respostas, multiplicando as chances questão por questão.</li>
+        <li><b>Considera o ponto de partida.</b> Essa chance é combinada com o que se sabe do grupo de referência: a maioria das pessoas fica perto da média.</li>
+        <li><b>Tira a média.</b> O resultado é uma "montanha" de notas possíveis. A nota final é o ponto de equilíbrio dessa montanha.</li>
+      </ol>
+      <p><b>Teste você:</b> clique nas questões para marcar acerto ou erro. Elas vão da mais fácil (Q1) para a mais difícil (Q10).</p>
+      <div class="seg" id="triPre" style="justify-self:start" role="group" aria-label="Exemplos prontos"><button type="button" data-p="A">Participante A</button><button type="button" data-p="B">Participante B</button><button type="button" data-p="T">Acertou todas</button><button type="button" data-p="N">Errou todas</button></div>
+      <div class="tri-qs" id="triQs" role="group" aria-label="Respostas às dez questões"></div>
+      <div class="duas">
+        <div style="display:grid;gap:12px;align-content:start">
+          <div class="kpis"><div class="kpi"><div class="v num" id="triAc"></div><div class="l">acertos</div></div><div class="kpi"><div class="v num" id="triNo"></div><div class="l">nota nesta simulação</div></div></div>
+          <p id="triLeia" aria-live="polite"></p>
+          <p class="small muted">Simulação com o método real, mas com 10 questões fictícias, todas com a = 1,5 e c = 0,15, e com b distribuído como na figura acima. A prova tem 45 questões, com parâmetros próprios, então estes números não são notas do Enem nem precisam coincidir com os da figura.</p>
+        </div>
+        <div class="chart livre" id="triSim"></div>
+      </div>
+    </div>
+
+    <div class="tri-bloco" id="t6"><h3>6. Então o número de acertos não importa?</h3>
+      <div class="tri-duas"><div class="tri-txt">
+        <p>Importa, e muito. Quem acerta muito tem nota alta, e quem acerta pouco tem nota baixa. O gráfico do guia mostra isso com 300 participantes de Ciências da Natureza de 2020. A diferença é que, para o mesmo número de acertos, as notas podem variar.</p>
+        <p>Se a relação é tão forte, por que usar a TRI? Porque ela permite <b>comparar provas diferentes</b> da mesma área, o que os acertos não permitem, já que uma prova pode ser mais difícil que outra. Ela também dá significado pedagógico a cada ponto da régua e ajuda a evitar empates.</p>
+        <p><button type="button" class="tri-ir" data-ir="s1">Ver acertos × nota com os microdados reais</button></p>
+      </div><figure class="fig-guia"><img src="guia/graf2.webp" width="1001" height="650" loading="lazy" alt="Gráfico de pontos da nota em função do número de acertos em Ciências da Natureza. Destaques: participante com 9 acertos e nota 446,3; com 19 acertos e nota 552,5; com 34 acertos e nota 701."><figcaption>Gráfico 2 do guia. Exemplos: 9 acertos deram 446,3; 19 deram 552,5; 34 deram 701,0. Fonte: Inep (2021).</figcaption></figure></div>
+    </div>
+
+    <div class="tri-bloco" id="t7"><h3>7. Da prova ao resultado</h3>
+      <div class="tri-duas"><figure class="fig-guia"><img src="guia/fig10.webp" width="1101" height="1399" loading="lazy" alt="Infográfico: aplicação das provas; processamento das respostas; retirada dos nomes; envio dos dados a várias equipes de analistas; conferência dos resultados, que devem coincidir; divulgação no portal do Enem."><figcaption>Figura 10 do guia. Fonte: Inep (2021).</figcaption></figure><div class="tri-txt">
+        <p>O cálculo exige estatística avançada e computador. Por isso, ele é feito de forma independente por equipes diferentes de especialistas, seguindo seis etapas:</p>
+        <ol class="tri-passos"><li>Aplicação das provas.</li><li>Processamento das respostas nas bases de dados.</li><li>Retirada dos nomes dos participantes.</li><li>Envio dos dados às equipes de analistas, para o cálculo das notas.</li><li>Conferência dos resultados entre as equipes.</li><li>Divulgação no Portal do Enem.</li></ol>
+        <details class="tri-det"><summary>E de onde vêm as questões?</summary><p>Professores credenciados elaboram e revisam as questões, que ficam no Banco Nacional de Itens. Elas passam por um pré-teste com alunos parecidos com o público do Enem. As aprovadas podem entrar em uma prova, e as demais são reformuladas ou descartadas.</p><figure class="fig-guia"><img src="guia/fig11.webp" width="1101" height="1498" loading="lazy" alt="Infográfico: elaboração dos itens por professores credenciados, Banco Nacional de Itens, pré-teste, análise depois do pré-teste e elaboração das provas."><figcaption>Figura 11 do guia. Fonte: Inep (2021).</figcaption></figure></details>
+      </div></div>
+    </div>
+
+    <div class="tri-bloco" id="t8"><h3>8. Dúvidas comuns</h3><div class="tri-faq"><details class="tri-det"><summary>Acertei mais questões do que no ano passado. Por que minha nota caiu?</summary><p>A nota não vem direto do número de acertos. Pode ser que a prova deste ano tivesse questões mais fáceis, ou que o seu padrão de respostas combine com uma proficiência menor, por exemplo se você errou questões fáceis.</p></details><details class="tri-det"><summary>Acertei 40 de 45. Por que minha nota não foi muito mais alta?</summary><p>Primeiro, porque o máximo de cada prova é limitado pelas questões dela. Em Ciências Humanas 2020, gabaritar dava 862,6. O guia cita o caso de quem acertou 40 e ficou com 706,7: provavelmente algumas das cinco questões erradas eram bem fáceis.</p></details><details class="tri-det"><summary>Acertei mais em Humanas do que em Matemática. Por que a nota de Matemática é maior?</summary><p>Cada área tem a sua própria régua, então as notas de áreas diferentes não se comparam diretamente. Um mesmo número de pontos representa coisas diferentes em cada uma.</p></details><details class="tri-det"><summary>Qual é o peso de cada questão?</summary><p>Não existe peso no cálculo. A nota sai da combinação das respostas com os parâmetros de cada questão, e esses parâmetros não funcionam como pesos: não dá para chegar à nota com uma média ponderada. Quando este site fala em "preço do erro", é a diferença de nota observada nos dados, e não um peso oficial.</p></details><details class="tri-det"><summary>Chutar diminui a nota? E deixar em branco?</summary><p>Um acerto nunca diminui a nota, só pode valer menos do que valeria com um padrão coerente. Questão em branco é corrigida como errada. Por isso, o guia diz que é sempre melhor responder.</p></details><details class="tri-det"><summary>A TRI descobre quem chutou?</summary><p>Ela não sabe o que aconteceu na sua cabeça. O que ela vê é um padrão: acertar questões difíceis e errar as fáceis é menos coerente com quem domina o conteúdo, então esses acertos somam menos.</p></details><details class="tri-det"><summary>A nota é de 0 a 1000?</summary><p>Não. A escala não tem limite fixo. O mínimo e o máximo dependem das questões daquela prova: muitas questões fáceis tendem a baixar o máximo, e muitas difíceis tendem a subir o mínimo. Por isso, gabaritar não dá 1000 e errar tudo não dá 0.</p></details><details class="tri-det"><summary>Minha nota depende de quem fez a prova comigo?</summary><p>Não. Ela depende das suas respostas e das características das questões. O desempenho dos concluintes de 2009 serviu só para definir o ponto de referência da régua.</p></details><details class="tri-det"><summary>A TRI deixa a prova mais difícil?</summary><p>Não. A dificuldade vem das questões. A TRI quase não muda a ordem geral dos participantes em relação ao percentual de acertos, mas detalha melhor as notas e ajuda a evitar empates.</p></details><details class="tri-det"><summary>Duas pessoas com exatamente as mesmas respostas podem ter notas diferentes?</summary><p>Não. Com os parâmetros das questões definidos, o mesmo padrão de respostas sempre dá a mesma nota.</p></details></div></div>
+
+    <div class="tri-bloco" id="t9"><h3>9. Glossário</h3><dl class="tri-glos"><div><dt>Item</dt><dd>é o mesmo que questão.</dd></div><div><dt>Proficiência</dt><dd>é a nota do participante, a medida do conhecimento dele na área.</dd></div><div><dt>Escala</dt><dd>é a "régua" onde ficam as questões e os participantes. Cada área tem a sua.</dd></div><div><dt>Parâmetros</dt><dd>são os três números de cada questão: a (discriminação), b (dificuldade) e c (acerto casual).</dd></div><div><dt>Coerência pedagógica</dt><dd>é acertar o que é mais fácil e errar a partir de certo nível de dificuldade.</dd></div><div><dt>Banco Nacional de Itens</dt><dd>é o sistema onde o Inep guarda as questões que passaram pelo pré-teste.</dd></div><div><dt>Pré-teste</dt><dd>é a aplicação das questões a um grupo parecido com o público do Enem, antes de elas entrarem na prova.</dd></div><div><dt>EAP</dt><dd>é o método que calcula a nota: a média da "montanha" de notas possíveis.</dd></div></dl>
+      <details class="tri-det"><summary>Para quem quer a parte técnica</summary>
+        <p>O Enem usa o modelo logístico de três parâmetros (Birnbaum, 1968). A chance de o participante acertar a questão i é:</p>
+        <p class="tri-form num">P(acerto | θ) = c<sub>i</sub> + (1 − c<sub>i</sub>) / (1 + exp[−a<sub>i</sub> (θ − b<sub>i</sub>)])</p>
+        <p class="small muted">Na página 24, o guia imprime o expoente sem o sinal de menos. Do jeito impresso, a chance cairia conforme o conhecimento aumenta, o que contradiz o próprio texto, que descreve uma função crescente. Por isso, escrevemos aqui a forma com o sinal. Foi essa forma que reproduziu as notas oficiais na nossa conferência.</p>
+        <p><b>Pressupostos:</b> unidimensionalidade (uma habilidade dominante por área) e independência local (a resposta a uma questão não influencia as outras). A <b>invariância</b> indica que os parâmetros das questões não dependem de quem responde.</p>
+        <p><b>Parâmetros das questões:</b> estimados pelo método bayesiano marginal, com o algoritmo EM e 40 pontos de quadratura. O grupo de referência tem média 0 e variância 1.</p>
+        <p><b>Nota:</b> média da distribuição a posteriori (EAP), com a precisão medida pelo desvio padrão a posteriori (PSD).</p>
+        <p><b>Conferência neste site:</b> recalculamos as notas de 2022 a 2025 com o EAP e os parâmetros publicados nos microdados. A diferença média para as notas oficiais ficou abaixo de 0,1 ponto.</p>
+        <p class="small muted"><b>Para se aprofundar, indicações do guia:</b> Andrade, Tavares e Valle (2000), <i>Teoria da Resposta ao Item: conceitos e aplicações</i>; Baker e Kim (2004); Hambleton, Swaminathan e Rogers (1991); Klein (2003); Pasquali (1997), <i>Psicometria: teoria e aplicações</i>.</p>
+      </details>
+    </div>
+
+    <p class="small muted tri-fonte"><b>Fonte dos textos de base e das figuras:</b> BRASIL. Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira (Inep). <i>Entenda a sua nota no Enem: guia do participante</i>. Brasília, DF: INEP, 2021. <a href="https://download.inep.gov.br/publicacoes/institucionais/avaliacoes_e_exames_da_educacao_basica/entenda_a_sua_nota_no_enem_guia_do_participante.pdf" target="_blank" rel="noopener">Baixar o guia no site do Inep</a>. O guia permite a reprodução, desde que citada a fonte. A simulação, os gráficos interativos e os comentários sobre os microdados são deste site.</p>
   </div>
 </section>
 
@@ -1212,6 +1327,40 @@ montaTudo();
 document.getElementById('qfechar').onclick = fecharQuestao;
 document.getElementById('qmodal').onclick = e => { if (e.target.id === 'qmodal') fecharQuestao(); };
 document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharQuestao(); });
+// Simulador da nota (EAP real, com 10 questões fictícias como as da Figura 8 do guia)
+const TRI_B = [200, 250, 320, 380, 450, 500, 590, 680, 730, 800].map(v => (v - 500) / 100);
+const TRI_PRE = { A: [1,0,1,1,1,1,0,0,0,0], B: [1,0,0,0,0,1,0,1,1,1], T: Array(10).fill(1), N: Array(10).fill(0) };
+let triR = TRI_PRE.A.slice();
+function triEAP(u) { const pts = []; let n = 0, m = 0, np = 0;
+  for (let t = -4; t <= 4.001; t += 0.02) { const pri = Math.exp(-t * t / 2); let w = pri;
+    u.forEach((x, i) => { const p = 0.15 + 0.85 / (1 + Math.exp(-1.5 * (t - TRI_B[i]))); w *= x ? p : 1 - p; });
+    pts.push([t, w, pri]); n += w; m += w * t; np += pri; }
+  return { nota: 500 + 100 * m / n, pts: pts.map(([t, w, pri]) => [500 + 100 * t, w / n, pri / np]) }; }
+function triSim() { const R = triEAP(triR), ac = triR.reduce((a, b) => a + b, 0);
+  const qs = document.getElementById('triQs');
+  qs.replaceChildren(...triR.map((x, i) => { const b = document.createElement('button'); b.type = 'button'; b.setAttribute('aria-pressed', x ? 'true' : 'false');
+    b.setAttribute('aria-label', `Questão ${i + 1}, nível ${500 + TRI_B[i] * 100}: ${x ? 'acertou' : 'errou'}`);
+    b.innerHTML = `<span>Q${i + 1}</span><i aria-hidden="true">${x ? '✓' : '✗'}</i>`; b.onclick = () => { triR[i] = x ? 0 : 1; triSim(); }; return b; }));
+  document.getElementById('triAc').textContent = ac; document.getElementById('triNo').textContent = fmt(R.nota);
+  document.querySelectorAll('#triPre button').forEach(b => b.setAttribute('aria-pressed', TRI_PRE[b.dataset.p].every((v, i) => v === triR[i]) ? 'true' : 'false'));
+  const pre = Object.keys(TRI_PRE).find(k => TRI_PRE[k].every((v, i) => v === triR[i]));
+  document.getElementById('triLeia').textContent = pre === 'A' ? 'Cinco acertos, nas questões mais fáceis: é o padrão coerente. Agora clique em Participante B e compare.' : pre === 'B' ? 'Os mesmos cinco acertos, mas em questões difíceis, com erros nas fáceis: a nota cai bastante.' : pre === 'T' ? 'Mesmo acertando tudo, a nota não chega a 1000: o máximo depende das questões da prova.' : pre === 'N' ? 'Mesmo errando tudo, a nota não é zero: o mínimo também depende das questões.' : 'Troque um ✗ por ✓ em qualquer questão: a nota sempre sobe, mas o quanto sobe depende das outras respostas.';
+  const W = 460, H = 250, m = { l: 14, r: 14, t: 24, b: 40 }, s = svg(W, H); const x = lin(100, 900, m.l, W - m.r);
+  const yMax = Math.max(...R.pts.map(p => p[1]), ...R.pts.map(p => p[2])); const y = lin(0, yMax, H - m.b, m.t);
+  const vis = R.pts.filter(p => p[0] >= 100 && p[0] <= 900); const path = k => vis.map((p, i) => (i ? 'L' : 'M') + x(p[0]).toFixed(1) + ',' + y(p[k]).toFixed(1)).join('');
+  el(s, 'line', { x1: m.l, x2: W - m.r, y1: H - m.b, y2: H - m.b, stroke: 'var(--rule)' });
+  [100, 300, 500, 700, 900].forEach(t => el(s, 'text', { x: x(t), y: H - m.b + 16, 'text-anchor': 'middle' }, t));
+  el(s, 'text', { x: (m.l + W - m.r) / 2, y: H - 6, 'text-anchor': 'middle' }, 'Notas possíveis');
+  el(s, 'path', { d: path(2), fill: 'none', stroke: 'var(--ink-3)', 'stroke-width': 1.5, 'stroke-dasharray': '4 4' });
+  el(s, 'path', { d: path(1) + `L${x(vis[vis.length - 1][0]).toFixed(1)},${H - m.b}L${x(vis[0][0]).toFixed(1)},${H - m.b}Z`, fill: 'var(--accent)', 'fill-opacity': 0.22, stroke: 'var(--accent)', 'stroke-width': 2 });
+  el(s, 'line', { x1: x(R.nota), x2: x(R.nota), y1: m.t, y2: H - m.b, stroke: 'var(--amarela)', 'stroke-width': 2.5 });
+  const dir = R.nota > 640; el(s, 'text', { x: x(R.nota) + (dir ? -6 : 6), y: m.t - 8, class: 'tit', 'text-anchor': dir ? 'end' : 'start' }, 'nota: ' + fmt(R.nota));
+  el(s, 'title', {}, 'A área colorida mostra as notas possíveis depois de ver as respostas; a linha tracejada é o ponto de partida; a linha amarela é a nota final.');
+  document.getElementById('triSim').replaceChildren(s); }
+document.querySelectorAll('#triPre button').forEach(b => b.onclick = () => { triR = TRI_PRE[b.dataset.p].slice(); triSim(); });
+document.querySelectorAll('.tri-ind button').forEach(b => b.onclick = () => document.getElementById(b.dataset.tri).scrollIntoView());
+document.querySelectorAll('.tri-ir').forEach(b => b.onclick = () => irPara(b.dataset.ir, true));
+triSim();
 ra.oninput = rb.oninput = cci; rk.oninput = par; cci(); render();
 </script>
 
