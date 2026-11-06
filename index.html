@@ -1363,7 +1363,7 @@ function triSim() { const R = triEAP(triR), ac = triR.reduce((a, b) => a + b, 0)
 document.querySelectorAll('#triPre button').forEach(b => b.onclick = () => { triR = TRI_PRE[b.dataset.p].slice(); triSim(); });
 document.querySelectorAll('.logo-link').forEach(a => a.onclick = e => { e.preventDefault(); irPara('tri', false);
   try { history.replaceState(null, '', location.pathname + location.search); } catch (err) {}
-  window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); });
+  window.scrollTo({ top: 0, behavior: 'instant' }); });
 document.querySelectorAll('.tri-ind button').forEach(b => b.onclick = () => document.getElementById(b.dataset.tri).scrollIntoView());
 document.querySelectorAll('.tri-ir').forEach(b => b.onclick = () => irPara(b.dataset.ir, true));
 triSim();
