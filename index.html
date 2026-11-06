@@ -68,16 +68,16 @@ p { margin: 0; max-width: 68ch; }
 
 header.hero { position: relative; --fh: clamp(280px, 31vw, 400px); padding-top: 24px; display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 32px; align-items: end; }
 .hero-txt { display: grid; gap: 16px; padding-bottom: 28px; align-self: center; }
-.hero-foto { width: calc(var(--fh) * 0.834); height: var(--fh); }
+.hero-foto { width: calc(var(--fh) * 0.834); height: var(--fh); margin-right: 36px; }
 .hero-foto img { display: block; width: 100%; height: 100%; }
-.tema { position: absolute; top: 12px; right: max(16px, env(safe-area-inset-right, 0px)); z-index: 2; box-shadow: 0 1px 4px rgb(0 0 0 / 0.14); }
-.tema button { font-size: 0.76rem; padding: 6px 10px; }
+.tema { position: absolute; top: 8px; right: max(16px, env(safe-area-inset-right, 0px)); z-index: 2; padding: 2px; }
+.seg.tema button { padding: 5px 7px; display: flex; align-items: center; justify-content: center; }
 .logo-link { display: inline-flex; flex: none; border-radius: 6px; }
 .logo-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 @media (max-width: 720px) {
   header.hero { --fh: 240px; grid-template-columns: minmax(0, 1fr); }
   .hero-txt { padding-bottom: 12px; }
-  .hero-foto { justify-self: center; }
+  .hero-foto { justify-self: center; margin-right: 0; }
 }
 .tarja { display: inline-flex; align-items: center; gap: 10px; font: 700 0.8rem/1 var(--body); letter-spacing: 0.1em; text-transform: uppercase; }
 .tarja i { width: 34px; height: 14px; background: var(--amarela); border-radius: 2px; display: inline-block; }
@@ -297,7 +297,7 @@ footer { padding-block: 26px 50px; color: var(--ink-3); font-size: 0.85rem; disp
 <div id="qmodal" hidden><div class="qcaixa" role="dialog" aria-modal="true" aria-label="Questão"><button type="button" id="qfechar" aria-label="Fechar">Fechar ×</button><div id="qmodalC"></div></div></div>
 
 <header class="wrap hero">
-  <div class="seg tema" id="tema" role="group" aria-label="Aparência do site"><button type="button" data-t="light">Claro</button><button type="button" data-t="dark">Escuro</button></div>
+  <div class="seg tema" id="tema" role="group" aria-label="Aparência do site"><button type="button" data-t="light" aria-label="Modo claro" title="Modo claro"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.3 5.3 7 7M17 17l1.7 1.7M5.3 18.7 7 17M17 7l1.7-1.7"/></svg></button><button type="button" data-t="dark" aria-label="Modo escuro" title="Modo escuro"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M20.4 14.6A8.8 8.8 0 0 1 9.4 3.6a.7.7 0 0 0-.9-.9 10 10 0 1 0 12.8 12.8.7.7 0 0 0-.9-.9Z"/></svg></button></div>
   <div class="hero-txt">
   <div class="marca"><a href="./" class="logo-link" aria-label="Voltar ao início"><img class="logo-claro " src="marca/jazz-claro.png" alt="Professor Jazz · Professor de Matemática" height="64"><img class="logo-escuro " src="marca/jazz-escuro.png" alt="Professor Jazz · Professor de Matemática" height="64"></a></div>
   <span class="tarja"><i></i>Enem 2022 a 2025 · Caderno amarelo · Aplicação regular, PPL e Belém (2025)</span>
