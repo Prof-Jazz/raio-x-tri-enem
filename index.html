@@ -1187,7 +1187,7 @@ function irPara(id, rolar) {
   const box = document.getElementById('menuSec');
   box.querySelectorAll('a').forEach(a => { const on = a.dataset.id === id; a.classList.toggle('on', on); a.setAttribute('aria-current', on ? 'page' : 'false');
     if (on && box.scrollWidth > box.clientWidth) box.scrollTo({ left: a.offsetLeft - box.offsetLeft - 40 }); });
-  try { history.replaceState(null, '', '#' + id); } catch (e) {}
+  if (rolar) try { history.replaceState(null, '', '#' + id); } catch (e) {}
   if (rolar) { const topo = document.querySelector('.layout').getBoundingClientRect().top + window.scrollY - document.querySelector('.barra').offsetHeight; if (window.scrollY > topo) window.scrollTo({ top: topo }); }
 }
 (function menu() {
@@ -1202,7 +1202,11 @@ function irPara(id, rolar) {
     d.querySelectorAll('button').forEach(b => b.onclick = () => irPara(b.dataset.id, true)); alvo.appendChild(d); });
   const altura = () => document.documentElement.style.setProperty('--hbar', nav.offsetHeight + 'px');
   altura(); window.addEventListener('resize', altura);
-  const hash = location.hash.slice(1); irPara(PERG.some(p => p[0] === hash) ? hash : (st.sec || 'tri'), false);
+  // A página sempre abre no cabeçalho, mesmo em link com # ou ao recarregar.
+  const hash = location.hash.slice(1);
+  try { history.scrollRestoration = 'manual'; if (hash) history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+  irPara(PERG.some(p => p[0] === hash) ? hash : (st.sec || 'tri'), false);
+  window.scrollTo(0, 0); window.addEventListener('load', () => window.scrollTo(0, 0), { once: true });
 })();
 montaTudo();
 document.getElementById('qfechar').onclick = fecharQuestao;
