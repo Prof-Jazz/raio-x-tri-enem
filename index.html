@@ -8,6 +8,7 @@
 <meta name="description" content="Análise TRI do caderno amarelo do Enem de 2022 a 2025: coerência pedagógica, dificuldade (b), discriminação (a) e o preço de cada erro.">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Raio-X TRI · Enem · Professor Jazz</title>
+<script>try { var t = localStorage.getItem('raiox-tema'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}</script>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
@@ -15,6 +16,7 @@
 /* Layout: coluna de leitura larga com "folhas" de prova; seletor fixo de área no topo; gráficos em SVG desenhados a partir dos dados. */
 :root {
   --paper: #f7f8fb;
+  --fundo: #dfe9f6; --fundo-ink3: #535b78; --fundo-rule: #c3d2e6;  /* cabeçalho e menus */
   --sheet: #ffffff;
   --ink: #141a2e;
   --ink-2: #4a5170;
@@ -35,12 +37,14 @@
   --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --fundo: #16304f; --fundo-ink3: #aab5cd; --fundo-rule: #2c4a6e;
   --paper: #0f1220; --sheet: #171b2c; --ink: #eef0f7; --ink-2: #b6bbd2; --ink-3: #868ca8;
   --rule: #2b3048; --grid: #22263a; --amarela: #f5cb2a; --amarela-ink: #f5cb2a; --amarela-soft: #2c2810;
   --accent: #7d97ff; --s1: #3987e5; --s2: #d95926; --s3: #199e70;
   --f1: #22406b; --f2: #2e5f9e; --f3: #4a86d6; --f4: #86b2ec; --f5: #cfe0fa;
   --bad: #ef6a5f; --good: #4cc584; --b-facil: #2fb36a; --b-media: #ec8a35; --b-dificil: #e8554a; color-scheme: dark; } }
 :root[data-theme="dark"] {
+  --fundo: #16304f; --fundo-ink3: #aab5cd; --fundo-rule: #2c4a6e;
   --paper: #0f1220; --sheet: #171b2c; --ink: #eef0f7; --ink-2: #b6bbd2; --ink-3: #868ca8;
   --rule: #2b3048; --grid: #22263a; --amarela: #f5cb2a; --amarela-ink: #f5cb2a; --amarela-soft: #2c2810;
   --accent: #7d97ff; --s1: #3987e5; --s2: #d95926; --s3: #199e70;
@@ -48,8 +52,9 @@
   --bad: #ef6a5f; --good: #4cc584; --b-facil: #2fb36a; --b-media: #ec8a35; --b-dificil: #e8554a; color-scheme: dark; }
 
 * { box-sizing: border-box; }
-body { background: var(--paper); color: var(--ink); font: 400 16px/1.6 var(--body); }
-body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--sheet); }
+header.hero, .barra, .lateral, .assina { --ink-3: var(--fundo-ink3); --rule: var(--fundo-rule); }
+body { background: var(--fundo); color: var(--ink); font: 400 16px/1.6 var(--body); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--fundo); }
 .wrap { max-width: 1320px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
 h1 { font-size: clamp(2rem, 5vw, 3.3rem); line-height: 1.02; font-weight: 800; }
@@ -61,17 +66,16 @@ p { margin: 0; max-width: 68ch; }
 .num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 .eyebrow { font: 600 0.74rem/1 var(--body); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); }
 
-header.hero { --fh: clamp(280px, 31vw, 400px); padding-top: 24px; display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 32px; align-items: end; }
+header.hero { position: relative; --fh: clamp(280px, 31vw, 400px); padding-top: 24px; display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 32px; align-items: end; }
 .hero-txt { display: grid; gap: 16px; padding-bottom: 28px; align-self: center; }
-.hero-foto { position: relative; width: calc(var(--fh) * 0.86); height: var(--fh); }
-.hero-foto svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.hero-foto .hx-luz { opacity: 0.35; }
-.hero-foto .hx-forma { opacity: 0.55; }
+.hero-foto { width: calc(var(--fh) * 0.834); height: var(--fh); }
+.hero-foto img { display: block; width: 100%; height: 100%; }
+.tema { position: absolute; top: 12px; right: max(16px, env(safe-area-inset-right, 0px)); z-index: 2; box-shadow: 0 1px 4px rgb(0 0 0 / 0.14); }
+.tema button { font-size: 0.76rem; padding: 6px 10px; }
 .logo-link { display: inline-flex; flex: none; border-radius: 6px; }
 .logo-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-.hero-foto img { position: absolute; left: 50%; bottom: 0; height: 100%; width: auto; max-width: none; transform: translateX(-50%); }
 @media (max-width: 720px) {
-  header.hero { --fh: 220px; grid-template-columns: minmax(0, 1fr); }
+  header.hero { --fh: 240px; grid-template-columns: minmax(0, 1fr); }
   .hero-txt { padding-bottom: 12px; }
   .hero-foto { justify-self: center; }
 }
@@ -124,7 +128,7 @@ body.modo-red .layout { grid-template-columns: minmax(0, 1fr); }
 body.modo-red .lateral { display: none; }
 @media (max-width: 900px) {
   .layout { grid-template-columns: minmax(0, 1fr); gap: 0; }
-  .lateral { flex-direction: row; overflow-x: auto; overflow-y: hidden; max-height: none; padding-block: 10px; gap: 6px; background: color-mix(in srgb, var(--paper) 94%, transparent); backdrop-filter: blur(8px); z-index: 4; border-bottom: 1px solid var(--rule); }
+  .lateral { flex-direction: row; overflow-x: auto; overflow-y: hidden; max-height: none; padding-block: 10px; gap: 6px; background: color-mix(in srgb, var(--fundo) 94%, transparent); backdrop-filter: blur(8px); z-index: 4; border-bottom: 1px solid var(--rule); }
   .lateral .gt { display: none; }
   .barra .wrap { gap: 6px; padding-block: 8px; }
   .barra img.mini { display: none; }
@@ -144,7 +148,7 @@ body.modo-red .lateral { display: none; }
 .barra img.mini { height: 28px; margin-right: 4px; }
 footer .assina { display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; margin-top: 10px; }
 footer .assina img { height: 56px; }
-.barra { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); }
+.barra { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: color-mix(in srgb, var(--fundo) 94%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); }
 .barra .wrap { display: flex; flex-wrap: wrap; gap: 8px 22px; align-items: center; padding-block: 10px; }
 .barra .grp { display: inline-flex; align-items: center; gap: 10px; flex-wrap: nowrap; }
 .seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; padding: 3px; background: var(--sheet); flex-wrap: wrap; }
@@ -293,6 +297,7 @@ footer { padding-block: 26px 50px; color: var(--ink-3); font-size: 0.85rem; disp
 <div id="qmodal" hidden><div class="qcaixa" role="dialog" aria-modal="true" aria-label="Questão"><button type="button" id="qfechar" aria-label="Fechar">Fechar ×</button><div id="qmodalC"></div></div></div>
 
 <header class="wrap hero">
+  <div class="seg tema" id="tema" role="group" aria-label="Aparência do site"><button type="button" data-t="light">Claro</button><button type="button" data-t="dark">Escuro</button></div>
   <div class="hero-txt">
   <div class="marca"><a href="./" class="logo-link" aria-label="Voltar ao início"><img class="logo-claro " src="marca/jazz-claro.png" alt="Professor Jazz · Professor de Matemática" height="64"><img class="logo-escuro " src="marca/jazz-escuro.png" alt="Professor Jazz · Professor de Matemática" height="64"></a></div>
   <span class="tarja"><i></i>Enem 2022 a 2025 · Caderno amarelo · Aplicação regular, PPL e Belém (2025)</span>
@@ -300,8 +305,7 @@ footer { padding-block: 26px 50px; color: var(--ink-3); font-size: 0.85rem; disp
   <p>Por que alunos com o mesmo número de acertos tiram notas tão diferentes, o que custa errar uma única questão e quais itens separam de verdade quem sabe de quem chutou. Os dados são os microdados oficiais do INEP, de todos os candidatos que fizeram o caderno amarelo.</p>
   </div>
   <div class="hero-foto">
-    <svg viewBox="0 0 344 400" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><defs><linearGradient id="hxG" x1="0.15" y1="0" x2="0.85" y2="1"><stop offset="0" stop-color="#3888c8"/><stop offset="1" stop-color="#d8d820"/></linearGradient><filter id="hxB" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="22"/></filter></defs><path class="hx-luz" d="M172 56C262 44 330 112 326 204C322 296 262 362 170 360C78 358 14 292 20 200C25 116 86 66 172 56Z" fill="url(#hxG)" filter="url(#hxB)"/><path class="hx-forma" d="M172 56C262 44 330 112 326 204C322 296 262 362 170 360C78 358 14 292 20 200C25 116 86 66 172 56Z" fill="url(#hxG)"/><path d="M44 118C78 62 146 26 222 40C286 52 330 100 338 164" fill="none" stroke="url(#hxG)" stroke-width="2.5" stroke-linecap="round" opacity=".7"/></svg>
-    <img src="marca/jazz-foto.webp" alt="Foto do Professor Jazz, de braços cruzados" width="588" height="800">
+    <img src="marca/jazz-foto-circulo.webp" alt="Foto do Professor Jazz, de braços cruzados, com um círculo azul e amarelo ao fundo" width="734" height="880">
   </div>
 </header>
 
@@ -1361,6 +1365,10 @@ function triSim() { const R = triEAP(triR), ac = triR.reduce((a, b) => a + b, 0)
   el(s, 'title', {}, 'A área colorida mostra as notas possíveis depois de ver as respostas; a linha tracejada é o ponto de partida; a linha amarela é a nota final.');
   document.getElementById('triSim').replaceChildren(s); }
 document.querySelectorAll('#triPre button').forEach(b => b.onclick = () => { triR = TRI_PRE[b.dataset.p].slice(); triSim(); });
+const temaAtual = () => document.documentElement.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+const temaMarca = () => document.querySelectorAll('#tema button').forEach(b => b.setAttribute('aria-pressed', b.dataset.t === temaAtual() ? 'true' : 'false'));
+document.querySelectorAll('#tema button').forEach(b => b.onclick = () => { document.documentElement.dataset.theme = b.dataset.t; try { localStorage.setItem('raiox-tema', b.dataset.t); } catch (e) {} temaMarca(); });
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', temaMarca); temaMarca();
 document.querySelectorAll('.logo-link').forEach(a => a.onclick = e => { e.preventDefault(); irPara('tri', false);
   try { history.replaceState(null, '', location.pathname + location.search); } catch (err) {}
   window.scrollTo({ top: 0, behavior: 'instant' }); });
