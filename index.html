@@ -926,9 +926,8 @@ function virada() {
   const n15 = em(15), n35 = em(35);
   box('viradaT').textContent = `${nomeArea(st.area)}, de 2022 a 2025: a partir de ${v} acertos, a discriminação (a) pesa mais que a dificuldade (b)`;
   box('viradaK').innerHTML = [[`${v} acertos`, 'ponto de virada na média dos quatro anos: daqui para cima, o a manda mais que o b'],
-    [ANOS_L.map(y => TODOS.anos[y].peso[st.area].virada ?? '—').join(' · '), `a virada em cada ano (${ANOS_L.join(' · ')})`],
-    [`${fmt(n15.peso_b, 0)}% × ${fmt(n15.peso_a, 0)}%`, 'com 15 acertos: peso do b × peso do a'],
-    [`${fmt(n35.peso_a, 0)}% × ${fmt(n35.peso_b, 0)}%`, `com ${n35.k} acertos: peso do a × peso do b`]]
+    [`${fmt(n15.peso_b, 0)}% × ${fmt(n15.peso_a, 0)}%`, 'com 15 acertos, média dos quatro anos: peso do b × peso do a'],
+    [`${fmt(n35.peso_a, 0)}% × ${fmt(n35.peso_b, 0)}%`, `com ${n35.k} acertos, média dos quatro anos: peso do a × peso do b`]]
     .map(([val, l]) => `<div class="kpi"><span class="v num">${val}</span><span class="l">${l}</span></div>`).join('') +
     '<p class="small muted" style="grid-column:1/-1">Esta análise usa a aplicação regular, que tem alunos suficientes em cada número de acertos.</p>';
   const linhas = (id, legId, series, ymin, ymax, fy, faixaV) => {
