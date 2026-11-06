@@ -257,7 +257,7 @@ footer { padding-block: 26px 50px; color: var(--ink-3); font-size: 0.85rem; disp
 
 <header class="wrap hero">
   <div class="marca"><img class="logo-claro " src="marca/jazz-claro.png" alt="Professor Jazz · Professor de Matemática" height="64"><img class="logo-escuro " src="marca/jazz-escuro.png" alt="Professor Jazz · Professor de Matemática" height="64"></div>
-  <span class="tarja"><i></i>Enem 2022 a 2025 · Caderno amarelo · Aplicação regular, reaplicação e Belém (2025)</span>
+  <span class="tarja"><i></i>Enem 2022 a 2025 · Caderno amarelo · Aplicação regular, PPL e Belém (2025)</span>
   <h1>Raio-X TRI</h1>
   <p>Por que alunos com o mesmo número de acertos tiram notas tão diferentes, o que custa errar uma única questão e quais itens separam de verdade quem sabe de quem chutou. Os dados são os microdados oficiais do INEP, de todos os candidatos que fizeram o caderno amarelo.</p>
 </header>
@@ -445,7 +445,7 @@ footer { padding-block: 26px 50px; color: var(--ink-3); font-size: 0.85rem; disp
   <div class="in">
     <div class="cab"><span class="eyebrow">Redação · <b>em qual competência se perde mais nota</b></span>
       <h2 id="redT"></h2>
-      <p class="muted">Cada competência vale de 0 a 200 pontos, e a nota final é a soma das cinco. Medimos quantos pontos, em média, cada grupo de alunos deixou de ganhar em cada competência. Como a redação é a mesma para todos, aqui usamos <b>a amostra inteira</b>: todos os alunos com redação válida, de todas as cores de caderno. A aplicação regular e a reaplicação ficam separadas, porque tiveram temas próprios.</p></div>
+      <p class="muted">Cada competência vale de 0 a 200 pontos, e a nota final é a soma das cinco. Medimos quantos pontos, em média, cada grupo de alunos deixou de ganhar em cada competência. Como a redação é a mesma para todos, aqui usamos <b>a amostra inteira</b>: todos os alunos com redação válida, de todas as cores de caderno. A aplicação regular e o PPL ficam separados, porque tiveram temas próprios.</p></div>
     <div class="ctl"><span class="rot eyebrow">Grupo</span><div class="seg" id="segRed"></div></div>
     <div class="kpis" id="redK"></div>
     <div class="cab"><h3>Pontos perdidos em média, por competência</h3><p class="small muted">Quanto maior a barra, mais nota o grupo deixou na mesa naquela competência. À direita, quantos alunos do grupo tiraram a nota máxima (200) nela.</p></div>
@@ -518,11 +518,11 @@ const TODOS = {"anos":{"2022":{"provas":[{"ap":"P1","area":"LC","cod":1066,"codr
 let R = null;
 const AREAS = [['LC','Linguagens'],['CH','Humanas'],['CN','Natureza'],['MT','Matemática']];
 const ABAS = [...AREAS, ['RED','Redação']];
-const APS = [['P1','Regular'],['P2','Reaplicação/PPL']];
+const APS = [['P1','Regular'],['P2','PPL']];
 const ANOS_L = Object.keys(TODOS.anos).map(Number).sort();
-const nomeAp = a => ({ P1: 'aplicação regular', P2: st.ano >= 2024 ? 'reaplicação' : 'reaplicação/PPL', BAM: 'aplicação de Belém' })[a];
+const nomeAp = a => ({ P1: 'aplicação regular', P2: 'PPL', BAM: 'aplicação de Belém' })[a];
 const BELEM = ['BAM', 'Belém (COP30)'];  // aplicação que só existiu em 2025
-const apsDoAno = () => { const L = [APS[0], ['P2', st.ano >= 2024 ? 'Reaplicação' : 'Reaplicação/PPL']]; return st.ano === 2025 ? [...L, BELEM] : L; };
+const apsDoAno = () => st.ano === 2025 ? [...APS, BELEM] : APS;
 const FAIXAS = ['Muito fácil','Fácil','Mediano','Difícil','Muito difícil'];
 const FCOR = ['var(--f1)','var(--f2)','var(--f3)','var(--f4)','var(--f5)'];
 const fcor = f => FCOR[FAIXAS.indexOf(f)] || 'var(--ink-3)';
@@ -593,7 +593,7 @@ function cci() {
 function s1() {
   const p = prova(st.ap, st.area); const box = id => document.getElementById(id);
   if (!p || !p.n) { box('s1t').textContent = 'Sem alunos nos microdados para esta prova';
-    ['s1k', 's1c', 's1par'].forEach(i => box(i).innerHTML = ''); box('s1leia').innerHTML = '<p>O INEP removeu os alunos desta prova dos microdados por serem poucos. Escolha a aplicação regular, ou Natureza e Matemática na reaplicação.</p>'; return; }
+    ['s1k', 's1c', 's1par'].forEach(i => box(i).innerHTML = ''); box('s1leia').innerHTML = '<p>O INEP removeu os alunos desta prova dos microdados por serem poucos. Escolha a aplicação regular, ou Natureza e Matemática no PPL.</p>'; return; }
   const F = p.faixas.filter(f => f.ac >= 5 && f.n >= (p.n > 1000 ? 30 : 1));
   const maior = F.reduce((m, f) => f.amplitude > m.amplitude ? f : m, F[0]);
   box('s1t').textContent = `${nomeArea(st.area)}: com ${maior.ac} acertos, a nota foi de ${fmt(maior.min)} a ${fmt(maior.max)}`;
@@ -757,7 +757,7 @@ function s5() {
   const p = prova(st.ap, st.area); const ids = ['s5k', 's5c', 's5c2', 's5tab']; const box = id => document.getElementById(id);
   const D = itensDe(st.ap, st.area).filter(i => i.custo_erro_35mais != null).map(i => ({ ...i, custo: i.custo_erro_35mais }));
   if (!p || !p.n || D.length < 5) { box('s5t').textContent = 'Não há alunos suficientes com 35+ acertos nesta prova'; ids.forEach(i => box(i).innerHTML = '');
-    box('s5leia').innerHTML = `<p>${p && p.n ? `Só ${p.n_topo} alunos da reaplicação chegaram a 35 acertos, poucos para comparar.` : 'O INEP não publicou os alunos desta prova.'} Escolha a aplicação regular ou Belém.</p>`; return; }
+    box('s5leia').innerHTML = `<p>${p && p.n ? `Só ${p.n_topo} alunos do PPL chegaram a 35 acertos, poucos para comparar.` : 'O INEP não publicou os alunos desta prova.'} Escolha a aplicação regular ou Belém.</p>`; return; }
   const ra_ = disp('s5c', D, 'a', 'Parâmetro a (discriminação)', v => fmt(v, 0));
   const rb_ = disp('s5c2', D, 'b_enem', 'Dificuldade b (régua do Enem)', v => fmt(v, 0));
   const top = [...D].sort((a, b) => b.custo - a.custo);
@@ -775,7 +775,7 @@ function s5() {
 // ---------- seção 6
 function s6() {
   const p = prova(st.ap, st.area); const box = id => document.getElementById(id);
-  if (!p || !p.n || !p.errou_uma.length) { box('s6t').textContent = 'Nenhum aluno errou só uma questão nesta prova'; box('s6c').innerHTML = ''; box('s6leia').innerHTML = p && p.n ? '<p>Na reaplicação, ninguém do caderno amarelo chegou perto de gabaritar.</p>' : '<p>Sem microdados de alunos para esta prova.</p>'; return; }
+  if (!p || !p.n || !p.errou_uma.length) { box('s6t').textContent = 'Nenhum aluno errou só uma questão nesta prova'; box('s6c').innerHTML = ''; box('s6leia').innerHTML = p && p.n ? '<p>No PPL, ninguém do caderno amarelo chegou perto de gabaritar.</p>' : '<p>Sem microdados de alunos para esta prova.</p>'; return; }
   const E = [...p.errou_uma].sort((a, b) => b.n - a.n); const tot = E.reduce((s, e) => s + e.n, 0);
   box('s6t').textContent = tot === 1 ? `${nomeArea(st.area)}: só 1 aluno errou uma única questão, a Q${E[0].questao}` : `${nomeArea(st.area)}: ${fint(tot)} alunos erraram uma única questão; a mais errada foi a Q${E[0].questao}`;
   const rowH = 24, W = 960, m = { l: 92, r: 220, t: 24, b: 10 }; const H = m.t + rowH * E.length + m.b; const s = svg(W, H);
@@ -852,7 +852,7 @@ const BLOCO = [['Fáceis', 'var(--b-facil)', [0, 1]], ['Médias', 'var(--b-media
 const bcor = fx => BLOCO.find(b => b[2].includes(fx))[1];
 const pct = (a, t) => t ? Math.round(a / t * 100) : 0;
 function coerFaixas(C) { const box = id => document.getElementById(id); const K = [5, 15, 25, 30, 35, 40];
-  const AP = [['P1', 'Regular', 'var(--s1)'], ['P2', 'Reaplicação', 'var(--s2)'], ['BAM', 'Belém', '#c99a00']].filter(([a]) => a === st.ap && R.coer[a] && R.coer[a][st.area] && R.coer[a][st.area].pares.length);
+  const AP = [['P1', 'Regular', 'var(--s1)'], ['P2', 'PPL', 'var(--s2)'], ['BAM', 'Belém', '#c99a00']].filter(([a]) => a === st.ap && R.coer[a] && R.coer[a][st.area] && R.coer[a][st.area].pares.length);
   if (!AP.length) { box('coerFxLeg').innerHTML = ''; box('coerFx').innerHTML = ''; return; }
   const val = (a, k) => { const p = R.coer[a][st.area].pares.find(x => x.k === k); return p ? { v: p.grupos.mais_nota - p.grupos.menos_nota, n: p.n } : null; };
   const all = AP.flatMap(([a]) => K.map(k => val(a, k))).filter(Boolean).map(d => d.v);
@@ -1060,7 +1060,7 @@ function redacao() {
   box('redT').textContent = `${g.nome}: a competência que mais tirou nota foi a ${COMPS[imax][0]} (${COMPS[imax][1].toLowerCase()})`;
   box('redK').innerHTML = [[fint(g.n), 'alunos no grupo'], [fmt(g.media_red), 'nota média da redação'], [`${fmt(g.perda[imax])} pts`, `perdidos em média na ${COMPS[imax][0]}`],
     g.onde_perdeu ? [`${fmt(g.onde_perdeu[0], 0)}%`, 'dos que não tiraram 1000 perderam ponto na C1'] : [fint(RD.n_1000), 'redações nota 1000']]
-    .map(([v, l]) => `<div class="kpi"><span class="v num">${v}</span><span class="l">${l}</span></div>`).join('') + (ap !== st.ap ? '<p class="small muted" style="grid-column:1/-1">A reaplicação não tem alunos de Linguagens nos microdados; mostrando a aplicação regular.</p>' : '');
+    .map(([v, l]) => `<div class="kpi"><span class="v num">${v}</span><span class="l">${l}</span></div>`).join('') + (ap !== st.ap ? '<p class="small muted" style="grid-column:1/-1">O PPL não tem alunos de Linguagens nos microdados; mostrando a aplicação regular.</p>' : '');
   const W = 960, rowH = 46, m = { l: 230, r: 150, t: 22, b: 14 }; const H = m.t + rowH * 5 + m.b; const s = svg(W, H);
   const pm = Math.max(100, Math.ceil(Math.max(...g.perda) / 20) * 20); const x = lin(0, pm, m.l, W - m.r);
   ticks(0, pm, 5).forEach(t => { el(s, 'line', { x1: x(t), x2: x(t), y1: m.t - 6, y2: H - m.b, class: 'gr' }); el(s, 'text', { x: x(t), y: m.t - 9, 'text-anchor': 'middle' }, t + ' pts'); });
@@ -1106,7 +1106,7 @@ function compara(tipo) {
     compara('dif'); compara('disc'); });
   box('T').innerHTML = `${nomeArea(st.area)}: escolha abaixo um ou mais anos e compare as disciplinas. ${dif ? 'Quanto maior a barra, mais difícil (parâmetro b na escala Enem).' : 'Quanto maior a barra, mais a questão separa quem sabe de quem não sabe (parâmetro a).'} Para trocar de área, use o seletor no topo da página.`;
   // itens por série (ano × aplicação)
-  const provas = []; anos.forEach(y => aps.forEach(ap => { if (ap === 'BAM' && y !== 2025) return; const nm = aps.length > 1 ? `${y} ${{ P1: 'Regular', P2: 'Reaplicação', BAM: 'Belém' }[ap]}` : ap === 'BAM' ? `${y} Belém` : String(y);
+  const provas = []; anos.forEach(y => aps.forEach(ap => { if (ap === 'BAM' && y !== 2025) return; const nm = aps.length > 1 ? `${y} ${{ P1: 'Regular', P2: 'PPL', BAM: 'Belém' }[ap]}` : ap === 'BAM' ? `${y} Belém` : String(y);
     const todos = TODOS.anos[y].itens.filter(i => i.aplicacao === ap && i.area === st.area && !i.anulado && i[key] != null);
     provas.push({ y, ap, nome: nm, cor: ap === 'BAM' ? '#c99a00' : COR_ANO[y], op: ap === 'P2' ? .55 : 1, todos, itens: todos.filter(i => i.disc) }); }));
   const series = provas.filter(p => p.itens.length); const tudo = series.flatMap(s => s.itens);
