@@ -244,8 +244,15 @@ td.n { font-family: var(--mono); font-variant-numeric: tabular-nums; text-align:
 th.n { text-align: right; }
 .tabela { overflow-x: auto; max-height: 560px; overflow-y: auto; border: 1px solid var(--rule); border-radius: 6px; }
 .tabela thead th { position: sticky; top: 0; background: var(--sheet); }
-.hsel { display: grid; gap: 6px; margin-top: 4px; }
-.hsel select { font: 600 16px/1.3 var(--body); color: var(--ink); background: var(--sheet); border: 1px solid var(--rule); border-radius: 8px; padding: 9px 10px; width: 100%; max-width: 760px; }
+.hfiltros { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px 10px; }
+@media (max-width: 600px) { .hfiltros { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.hf { display: grid; gap: 5px; min-width: 0; }
+.hf .rot { display: flex; align-items: center; gap: 6px; }
+.hf .rot::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--hc); }
+.hf-larga { grid-column: 1 / -1; }
+.hf select { width: 100%; min-width: 0; height: 42px; padding: 0 34px 0 12px; font: 600 16px/1.2 var(--body); color: var(--ink); border: 2px solid var(--hc); border-radius: 10px; -webkit-appearance: none; appearance: none; text-overflow: ellipsis; cursor: pointer;
+  background-color: color-mix(in srgb, var(--hc) 10%, var(--sheet)); background-image: linear-gradient(45deg, transparent 50%, var(--hc) 50%), linear-gradient(135deg, var(--hc) 50%, transparent 50%); background-size: 6px 6px; background-position: right 17px center, right 11px center; background-repeat: no-repeat; }
+.hf select:focus-visible { outline: 2px solid var(--hc); outline-offset: 2px; }
 .hgrupo { margin-top: 18px; display: grid; gap: 8px; }
 .hgrupo h3 { font-size: 1rem; text-align: left; }
 .hgrupo h3 span { font: 400 0.9rem/1.4 var(--body); color: var(--ink-2); }
@@ -665,14 +672,14 @@ footer { padding-block: 26px 50px; color: var(--ink-3); font-size: 0.85rem; disp
     <div class="cab"><span class="eyebrow">Banco de questões · <b>por competência e habilidade</b></span>
       <h2 id="habT"></h2>
       <p class="muted small">Escolha a área, o ano, a dificuldade e se quer filtrar por competência ou por habilidade. Toque em uma questão para ver a questão como saiu no caderno amarelo, os parâmetros e o desempenho dos alunos. O gabarito fica escondido até você tocar em <b>Ver gabarito</b>, para dar para treinar como num simulado.</p></div>
-    <div class="qmenu">
-      <div class="grp"><span class="rot eyebrow">Área</span><div class="seg" id="segHArea"></div></div>
-      <div class="grp"><span class="rot eyebrow">Ano</span><div class="seg" id="segHAno"></div></div>
-      <div class="grp"><span class="rot eyebrow">Aplicação</span><div class="seg" id="segHAp"></div></div>
-      <div class="grp"><span class="rot eyebrow">Dificuldade</span><div class="seg" id="segHDif"></div></div>
-      <div class="grp"><span class="rot eyebrow">Filtrar por</span><div class="seg" id="segHTipo"></div></div>
+    <div class="hfiltros">
+      <label class="hf" style="--hc: var(--s1)"><span class="rot eyebrow">Área</span><select id="hfArea"></select></label>
+      <label class="hf" style="--hc: var(--s3)"><span class="rot eyebrow">Ano</span><select id="hfAno"></select></label>
+      <label class="hf" style="--hc: var(--s2)"><span class="rot eyebrow">Aplicação</span><select id="hfAp"></select></label>
+      <label class="hf" style="--hc: var(--b-dificil)"><span class="rot eyebrow">Dificuldade</span><select id="hfDif"></select></label>
+      <label class="hf" style="--hc: var(--accent)"><span class="rot eyebrow">Filtrar por</span><select id="hfTipo"></select></label>
+      <label class="hf hf-larga" style="--hc: var(--amarela)"><span class="rot eyebrow" id="habSelRot">Competência</span><select id="habSel"></select></label>
     </div>
-    <label class="hsel"><span class="rot eyebrow" id="habSelRot">Competência</span><select id="habSel"></select></label>
     <p class="small" id="habResumo" aria-live="polite"></p>
     <div id="habLista"></div>
   </div>
@@ -1342,10 +1349,12 @@ function hab() {
   if (!['P1', 'P2', 'BAM', 'todas'].includes(st.habAp)) st.habAp = 'P1';
   if (!['comp', 'hab'].includes(st.habTipo)) st.habTipo = 'comp';
   if (st.habDif !== 'todas' && !FAIXAS.includes(st.habDif)) st.habDif = 'todas';
-  montaSeg('segHArea', AREAS, 'area'); montaSeg('segHAno', [['todos', 'Todos'], ...ANOS_L.map(a => [a, String(a)])], 'habAno');
-  montaSeg('segHAp', [['P1', 'Regular'], ['P2', 'PPL'], ['BAM', 'Belém (2025)'], ['todas', 'Todas']], 'habAp');
-  montaSeg('segHDif', [['todas', 'Todas'], ...FAIXAS.map(f => [f, f])], 'habDif');
-  montaSeg('segHTipo', [['comp', 'Competência'], ['hab', 'Habilidade']], 'habTipo');
+  const lista = (id, ops, key) => { const el = box(id); el.replaceChildren(...ops.map(([v, l]) => { const o = document.createElement('option'); o.textContent = l; o.selected = st[key] === v; return o; }));
+    el.onchange = () => { st[key] = ops[el.selectedIndex][0]; try { localStorage.setItem('raiox', JSON.stringify(st)); } catch (e) {} if (key === 'area') { montaTudo(); render(); } else hab(); }; };
+  lista('hfArea', AREAS, 'area'); lista('hfAno', [['todos', 'Todos'], ...ANOS_L.map(a => [a, String(a)])], 'habAno');
+  lista('hfAp', [['P1', 'Regular'], ['P2', 'PPL'], ['BAM', 'Belém (2025)'], ['todas', 'Todas']], 'habAp');
+  lista('hfDif', [['todas', 'Todas'], ...FAIXAS.map(f => [f, f])], 'habDif');
+  lista('hfTipo', [['comp', 'Competência'], ['hab', 'Habilidade']], 'habTipo');
   const M = TODOS.matriz[area] || {}, tipo = st.habTipo, campo = tipo === 'comp' ? 'competencia' : 'habilidade', dic = (tipo === 'comp' ? M.comp : M.hab) || {};
   const anos = st.habAno === 'todos' ? ANOS_L : [st.habAno];
   const base = anos.flatMap(a => (TODOS.anos[a].itens || []).filter(i => i.area === area && (st.habAp === 'todas' || i.aplicacao === st.habAp) && (st.habDif === 'todas' || (!i.anulado && i.faixa === st.habDif))).map(i => Object.assign({}, i, { ano: a })));
