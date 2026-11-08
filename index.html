@@ -53,6 +53,10 @@
 
 * { box-sizing: border-box; }
 .msel, .msec { display: none; }
+.grp-atalho { gap: 6px; }
+.atalho { font: 600 0.84rem/1 var(--body); padding: 9px 13px; border-radius: 999px; border: 1.5px solid var(--amarela); background: transparent; color: var(--ink); cursor: pointer; white-space: nowrap; }
+.atalho:hover { background: var(--amarela-soft); }
+.atalho[aria-current="true"] { background: var(--amarela); color: #141a2e; }
 .hero-txt p, section.folha p, section.folha li, section.folha dd, .leia { text-align: justify; -webkit-hyphens: auto; hyphens: auto; }
 header.hero, .barra, .lateral, .assina { --ink-3: var(--fundo-ink3); --rule: var(--fundo-rule); }
 body { background: var(--fundo); color: var(--ink); font: 400 16px/1.6 var(--body); }
@@ -129,7 +133,7 @@ body.modo-red .layout { grid-template-columns: minmax(0, 1fr); }
 body.modo-red .lateral { display: none; }
 @media (max-width: 900px) {
   .layout { grid-template-columns: minmax(0, 1fr); gap: 0; }
-  .lateral, .barra .grp .seg { display: none; }
+  .lateral, .barra .grp .seg, .barra .wrap .grp.grp-atalho { display: none; }
   .barra .wrap { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 6px 8px; padding-block: 8px; }
   .barra .logo-link { align-self: center; }
   .msec { display: block; flex: 1 1 calc(100% - 96px); min-width: 0; }
@@ -353,6 +357,7 @@ footer { padding-block: 26px 50px; color: var(--ink-3); font-size: 0.85rem; disp
     <div class="msec"><select id="secSel" class="msel" aria-label="Escolha a seção"></select></div>
     <div class="grp grp-ano"><label class="rot" for="segAnoSel">Ano</label><div class="seg" id="segAno"></div><select id="segAnoSel" class="msel"></select></div>
     <div class="grp"><label class="rot" for="segAreaSel">Área</label><div class="seg" id="segArea"></div><select id="segAreaSel" class="msel"></select></div>
+    <div class="grp grp-atalho" role="group" aria-label="Atalhos"><button type="button" class="atalho" data-ir="s7">Questão a questão</button><button type="button" class="atalho" data-ir="hab">Banco de questões</button></div>
     <div class="grp grp-ap"><label class="rot" for="segApSel">Aplicação</label><div class="seg" id="segAp"></div><select id="segApSel" class="msel"></select></div>
   </div>
 </nav>
@@ -1422,6 +1427,7 @@ function irPara(id, rolar) {
   box.querySelectorAll('a').forEach(a => { const on = a.dataset.id === id; a.classList.toggle('on', on); a.setAttribute('aria-current', on ? 'page' : 'false');
     if (on && box.scrollWidth > box.clientWidth) box.scrollTo({ left: a.offsetLeft - box.offsetLeft - 40 }); });
   const ss = document.getElementById('secSel'); if (ss) ss.value = id;
+  document.querySelectorAll('.atalho').forEach(b => b.setAttribute('aria-current', b.dataset.ir === id ? 'true' : 'false'));
   if (rolar) try { history.replaceState(null, '', '#' + id); } catch (e) {}
   if (rolar) { const topo = document.querySelector('.layout').getBoundingClientRect().top + window.scrollY - document.querySelector('.barra').offsetHeight; if (window.scrollY > topo) window.scrollTo({ top: topo }); }
 }
@@ -1459,6 +1465,7 @@ document.addEventListener('keydown', e => { const aberto = !document.getElementB
   if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return; const d = e.key === 'ArrowRight' ? 1 : -1;
   if (aberto) { e.preventDefault(); passoQ(d); }
   else if (st.sec === 's7' && !e.target.closest('input, select, textarea')) { const b = document.getElementById(d > 0 ? 's7dir' : 's7esq'); if (!b.disabled) { e.preventDefault(); b.click(); } } });
+document.querySelectorAll('.atalho').forEach(b => b.onclick = () => irPara(b.dataset.ir, true));
 document.getElementById('qant').onclick = () => passoQ(-1); document.getElementById('qprox').onclick = () => passoQ(1);
 arrastar(document.getElementById('qmodal'), passoQ);
 arrastar(document.querySelector('.qpalco'), d => { const b = document.getElementById(d > 0 ? 's7dir' : 's7esq'); if (!b.disabled) b.click(); });
