@@ -359,7 +359,7 @@ footer { padding-block: 26px 50px; color: var(--ink-3); font-size: 0.85rem; disp
     <div class="msec"><select id="secSel" class="msel" aria-label="Escolha a seção"></select></div>
     <div class="grp grp-ano"><label class="rot" for="segAnoSel">Ano</label><div class="seg" id="segAno"></div><select id="segAnoSel" class="msel"></select></div>
     <div class="grp"><label class="rot" for="segAreaSel">Área</label><div class="seg" id="segArea"></div><select id="segAreaSel" class="msel"></select></div>
-    <div class="grp grp-atalho" role="group" aria-label="Atalhos"><button type="button" class="atalho" data-ir="s7">Questão a Questão</button><button type="button" class="atalho" data-ir="hab">Banco de questões</button></div>
+    <div class="grp grp-atalho" role="group" aria-label="Atalhos"><button type="button" class="atalho" data-ir="s7">Questão a Questão</button><button type="button" class="atalho" data-ir="hab">Banco de Questões</button></div>
     <div class="grp grp-ap"><label class="rot" for="segApSel">Aplicação</label><div class="seg" id="segAp"></div><select id="segApSel" class="msel"></select></div>
   </div>
 </nav>
@@ -694,7 +694,7 @@ footer { padding-block: 26px 50px; color: var(--ink-3); font-size: 0.85rem; disp
 
 <section class="folha" id="hab">
   <div class="in">
-    <div class="cab"><span class="eyebrow">Banco de questões · <b>por competência e habilidade</b></span>
+    <div class="cab"><span class="eyebrow">Banco de Questões · <b>por competência e habilidade</b></span>
       <h2 id="habT"></h2>
       <p class="muted small">Escolha a área, o ano, a dificuldade e se quer filtrar por competência ou por habilidade. Toque em uma questão para ver a questão como saiu no caderno amarelo, os parâmetros e o desempenho dos alunos. O gabarito fica escondido até você tocar em <b>Ver gabarito</b>, para dar para treinar como num simulado.</p></div>
     <div class="hfiltros">
@@ -1419,7 +1419,7 @@ const SECOES = [['Começo'], ['tri', '', 'Como a TRI funciona'],
   ['As questões'], ['s2', '2', 'Dificuldade (b)'], ['s3', '3', 'Habilidades e competências'], ['s4', '4', 'Discriminação (a)'], ['ranking', '', 'Ranking das questões'],
   ['Alto desempenho'], ['virada', '4b', 'A virada do parâmetro a'], ['s5', '5', '35 acertos ou mais'], ['s6', '6', 'Quem errou só uma'], ['topo', '6b', 'Gêmeos do topo'],
   ['Comparar anos e disciplinas'], ['dif', '', 'Análise da Dificuldade por Disciplina'], ['disc', '', 'Análise da Discriminação por Prova'],
-  ['Consulta'], ['s7', '', 'Questão a Questão'], ['hab', '', 'Banco de questões']];
+  ['Consulta'], ['s7', '', 'Questão a Questão'], ['hab', '', 'Banco de Questões']];
 const PERG = SECOES.filter(x => x.length > 1);
 function irPara(id, rolar) {
   if (!PERG.some(p => p[0] === id)) id = PERG[0][0];
