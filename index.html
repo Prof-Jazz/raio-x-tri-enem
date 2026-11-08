@@ -53,7 +53,8 @@
 
 * { box-sizing: border-box; }
 .msel, .msec { display: none; }
-.grp-atalho { gap: 6px; }
+.grp-atalho { gap: 6px; margin-left: auto; }
+@media (min-width: 901px) { .barra .wrap { column-gap: 14px; } .barra .grp { gap: 8px; } .barra .grp .seg button { padding: 8px 10px; } }
 .atalho { font: 600 0.84rem/1 var(--body); padding: 9px 13px; border-radius: 999px; border: 1.5px solid var(--amarela); background: transparent; color: var(--ink); cursor: pointer; white-space: nowrap; }
 .atalho:hover { background: var(--amarela-soft); }
 .atalho[aria-current="true"] { background: var(--amarela); color: #141a2e; }
@@ -363,8 +364,8 @@ footer { padding-block: 26px 50px; color: var(--ink-3); font-size: 0.85rem; disp
     <div class="msec"><select id="secSel" class="msel" aria-label="Escolha a seção"></select></div>
     <div class="grp grp-ano"><label class="rot" for="segAnoSel">Ano</label><div class="seg" id="segAno"></div><select id="segAnoSel" class="msel"></select></div>
     <div class="grp"><label class="rot" for="segAreaSel">Área</label><div class="seg" id="segArea"></div><select id="segAreaSel" class="msel"></select></div>
-    <div class="grp grp-atalho" role="group" aria-label="Atalhos"><button type="button" class="atalho" data-ir="s7">Questão a Questão</button><button type="button" class="atalho" data-ir="hab">Banco de Questões</button></div>
     <div class="grp grp-ap"><label class="rot" for="segApSel">Aplicação</label><div class="seg" id="segAp"></div><select id="segApSel" class="msel"></select></div>
+    <div class="grp grp-atalho" role="group" aria-label="Atalhos"><button type="button" class="atalho" data-ir="s7">Questão a Questão</button><button type="button" class="atalho" data-ir="hab">Banco de Questões</button></div>
   </div>
 </nav>
 
