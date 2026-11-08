@@ -133,7 +133,9 @@ body.modo-red .layout { grid-template-columns: minmax(0, 1fr); }
 body.modo-red .lateral { display: none; }
 @media (max-width: 900px) {
   .layout { grid-template-columns: minmax(0, 1fr); gap: 0; }
-  .lateral, .barra .grp .seg, .barra .wrap .grp.grp-atalho { display: none; }
+  .lateral, .barra .grp .seg { display: none; }
+  .barra .wrap .grp.grp-atalho { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; flex: 1 1 100%; order: 9; }
+  .atalho { padding: 9px 6px; font-size: 0.86rem; }
   .barra .wrap { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 6px 8px; padding-block: 8px; }
   .barra .logo-link { align-self: center; }
   .msec { display: block; flex: 1 1 calc(100% - 96px); min-width: 0; }
@@ -1465,7 +1467,7 @@ document.addEventListener('keydown', e => { const aberto = !document.getElementB
   if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return; const d = e.key === 'ArrowRight' ? 1 : -1;
   if (aberto) { e.preventDefault(); passoQ(d); }
   else if (st.sec === 's7' && !e.target.closest('input, select, textarea')) { const b = document.getElementById(d > 0 ? 's7dir' : 's7esq'); if (!b.disabled) { e.preventDefault(); b.click(); } } });
-document.querySelectorAll('.atalho').forEach(b => b.onclick = () => irPara(b.dataset.ir, true));
+document.querySelectorAll('.atalho').forEach(b => b.onclick = () => { irPara(b.dataset.ir, true); const nav = document.querySelector('.barra'); window.scrollTo({ top: document.querySelector('.layout').getBoundingClientRect().top + window.scrollY - nav.offsetHeight, behavior: 'instant' }); });
 document.getElementById('qant').onclick = () => passoQ(-1); document.getElementById('qprox').onclick = () => passoQ(1);
 arrastar(document.getElementById('qmodal'), passoQ);
 arrastar(document.querySelector('.qpalco'), d => { const b = document.getElementById(d > 0 ? 's7dir' : 's7esq'); if (!b.disabled) b.click(); });
