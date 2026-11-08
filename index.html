@@ -53,7 +53,8 @@
 
 * { box-sizing: border-box; }
 .msel, .msec { display: none; }
-.grp-atalho { gap: 6px; margin-left: auto; }
+.grp-atalho { gap: 6px; }
+@media (min-width: 901px) { .barra .wrap .grp-atalho { flex-basis: 100%; padding-left: var(--recuo-ano, 0px); } }
 @media (min-width: 901px) { .barra .wrap { column-gap: 14px; } .barra .grp { gap: 8px; } .barra .grp .seg button { padding: 8px 10px; } }
 .atalho { font: 600 0.84rem/1 var(--body); padding: 9px 13px; border-radius: 999px; border: 1.5px solid var(--amarela); background: transparent; color: var(--ink); cursor: pointer; white-space: nowrap; }
 .atalho:hover { background: var(--amarela-soft); }
@@ -1454,7 +1455,9 @@ function irPara(id, rolar) {
     d.innerHTML = (ant ? `<button type="button" data-id="${ant[0]}"><small>← Anterior</small>${ant[1] ? ant[1] + ' · ' : ''}${ant[2]}</button>` : '') +
       (prox ? `<button type="button" class="prox" data-id="${prox[0]}"><small>Próxima →</small>${prox[1] ? prox[1] + ' · ' : ''}${prox[2]}</button>` : '');
     d.querySelectorAll('button').forEach(b => b.onclick = () => irPara(b.dataset.id, true)); alvo.appendChild(d); });
-  const altura = () => document.documentElement.style.setProperty('--hbar', nav.offsetHeight + 'px');
+  const altura = () => { const ano = nav.querySelector('.grp-ano'), w = nav.querySelector('.wrap');
+    if (ano && w) document.documentElement.style.setProperty('--recuo-ano', Math.max(0, ano.getBoundingClientRect().left - w.getBoundingClientRect().left - parseFloat(getComputedStyle(w).paddingLeft)) + 'px');
+    document.documentElement.style.setProperty('--hbar', nav.offsetHeight + 'px'); };
   altura(); window.addEventListener('resize', altura);
   // A página sempre abre no cabeçalho, mesmo em link com # ou ao recarregar.
   const hash = location.hash.slice(1);
