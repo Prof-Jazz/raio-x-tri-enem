@@ -270,6 +270,10 @@ th.n { text-align: right; }
 .hq .e { color: var(--ink-3); font-size: 0.78rem; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .vergab { font: 600 0.78rem/1.5 var(--body); padding: 2px 10px; border-radius: 999px; border: 1px solid var(--amarela); background: transparent; color: var(--ink); cursor: pointer; vertical-align: middle; }
 .vergab:hover { background: var(--amarela-soft); }
+.detbtn { font: 600 0.78rem/1.5 var(--body); padding: 2px 10px; border-radius: 999px; border: 1px solid var(--rule); background: transparent; color: var(--ink-2); cursor: pointer; vertical-align: middle; }
+.detbtn::after { content: " ▾"; } .detbtn[aria-expanded="true"]::after { content: " ▴"; }
+.detbtn:hover, .detbtn[aria-expanded="true"] { border-color: var(--ink-3); color: var(--ink); }
+.qdet { display: grid; gap: 14px; } .qdet[hidden] { display: none; }
 .gab { border: 1px solid var(--good); color: var(--ink); }
 .qmenu { flex-wrap: wrap; gap: 10px 22px; padding-bottom: 4px; }
 .qmenu .grp { display: inline-flex; align-items: center; gap: 10px; }
@@ -1009,17 +1013,17 @@ function s6() {
 // ---------- seção 7
 const QBASE = '';  // onde estão as imagens das questões
 const corFaixa = q => q.anulado || q.faixa == null || !FAIXAS.includes(q.faixa) ? 'var(--ink-3)' : bcor(FAIXAS.indexOf(q.faixa));
-function fichaHTML(i) {
+function fichaHTML(i, compacto) {
   const M = R.matriz[i.area] || {}; const hab = i.habilidade ? (M.hab || {})[i.habilidade] : null; const comp = i.competencia ? (M.comp || {})[i.competencia] : null;
   const pct = v => v == null ? '—' : fmt(v, 1) + '%';
   const faixa = i.anulado ? `<span class="chip" style="border:1px dashed var(--ink-3)">Anulada</span>` : `<span class="chip" style="background:${corFaixa(i)};color:#fff">${i.faixa}</span>`;
-  return `<h3>Questão ${i.questao}${i.lingua ? ` (${i.lingua.toLowerCase()})` : ''} ${faixa}${i.gabarito ? ` <button type="button" class="vergab" data-g="${esc(i.gabarito)}">Ver gabarito</button>` : ''}</h3>
+  return `<h3>Questão ${i.questao}${i.lingua ? ` (${i.lingua.toLowerCase()})` : ''} ${faixa}${compacto ? ` <button type="button" class="detbtn" aria-expanded="${QDET}">Detalhes</button>` : ''}${i.gabarito ? ` <button type="button" class="vergab" data-g="${esc(i.gabarito)}">Ver gabarito</button>` : ''}</h3>
     <p class="small muted">Enem ${i.ano || st.ano} · ${nomeAp(i.aplicacao)} · ${nomeArea(i.area)}${i.disc ? ` · <b>${esc(i.disc)}</b>` : ''}</p>
     ${i.anulado && i.motivo ? `<p class="small muted">Motivo da anulação: ${esc(i.motivo)}</p>` : ''}
-    <div class="kpis">${[[fmt(i.b_enem, 1), 'dificuldade (b) na escala Enem'], [fmt(i.a, 2), 'discriminação (a)'], [fmt(i.c, 2), 'acerto ao acaso (c)'], [pct(i.pct_acerto_geral), 'de acerto entre todos os alunos'],
+    ${compacto ? `<div class="qdet"${QDET ? '' : ' hidden'}>` : ''}<div class="kpis">${[[fmt(i.b_enem, 1), 'dificuldade (b) na escala Enem'], [fmt(i.a, 2), 'discriminação (a)'], [fmt(i.c, 2), 'acerto ao acaso (c)'], [pct(i.pct_acerto_geral), 'de acerto entre todos os alunos'],
       [pct(i.pct_acerto_35mais), 'de acerto entre quem fez 35+'], [i.custo_erro_35mais == null ? '—' : i.custo_erro_35mais >= 0.05 ? `perdeu ${fmt(i.custo_erro_35mais)} pts` : 'não perdeu', i.custo_erro_35mais != null && i.custo_erro_35mais <= -0.05 ? `quem fez 35+ e errou ficou ${fmt(-i.custo_erro_35mais)} pts à frente de quem acertou (acertou outra no lugar)` : 'quem fez 35+ e errou esta questão, em relação a quem acertou']]
       .map(([v, l]) => `<div class="kpi"><span class="v num">${v}</span><span class="l">${l}</span></div>`).join('')}</div>
-    <p class="hab">${i.habilidade ? `<b>H${i.habilidade}</b>${hab ? ` · ${esc(hab)}` : ''}` : 'Habilidade não informada.'}${i.competencia ? `<br><b>Competência ${i.competencia}</b>${comp ? ` · ${esc(comp)}` : ''}` : ''}</p>`;
+    <p class="hab">${i.habilidade ? `<b>H${i.habilidade}</b>${hab ? ` · ${esc(hab)}` : ''}` : 'Habilidade não informada.'}${i.competencia ? `<br><b>Competência ${i.competencia}</b>${comp ? ` · ${esc(comp)}` : ''}` : ''}</p>${compacto ? '</div>' : ''}`;
 }
 function printHTML(i) {
   const ap = { P1: 'R', P2: 'P', BAM: 'B' }[i.aplicacao], pref = `${i.ano || st.ano}_${ap}_${i.questao}`;
@@ -1031,14 +1035,14 @@ function printHTML(i) {
   return pr;
 }
 // lista que está na tela quando a questão foi aberta, para andar com as setas
-let QL = null, QK = 0;
+let QL = null, QK = 0, QC = false, QDET = false;
 function mostraQ(i) {
-  const m = document.getElementById('qmodal'); document.getElementById('qmodalC').innerHTML = fichaHTML(i) + printHTML(i); m.scrollTop = 0;
+  const m = document.getElementById('qmodal'); document.getElementById('qmodalC').innerHTML = fichaHTML(i, QC) + printHTML(i); m.scrollTop = 0;
   const tem = !!QL && QL.length > 1, a = document.getElementById('qant'), p = document.getElementById('qprox');
   a.hidden = p.hidden = !tem; a.disabled = QK <= 0; p.disabled = !tem || QK >= QL.length - 1;
   document.getElementById('qpos').textContent = tem ? `${QK + 1} de ${QL.length}` : '';
 }
-function abrirQuestao(i, lista, k) { QL = lista || null; QK = k || 0; mostraQ(i); document.getElementById('qmodal').hidden = false; document.getElementById('qfechar').focus(); }
+function abrirQuestao(i, lista, k, compacto) { QL = lista || null; QK = k || 0; QC = !!compacto; QDET = false; mostraQ(i); document.getElementById('qmodal').hidden = false; document.getElementById('qfechar').focus(); }
 function passoQ(d) { if (!QL) return; const n = QK + d; if (n < 0 || n >= QL.length) return; QK = n; mostraQ(QL[n]); }
 function arrastar(el, fn) { let x0 = null, y0 = 0;
   el.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
@@ -1378,6 +1382,8 @@ function compara(tipo) {
 function render() { const red = st.area === 'RED'; document.body.classList.toggle('modo-red', red);
   R = Object.assign(TODOS.anos[st.ano], { matriz: TODOS.matriz, hist: TODOS.hist, cortes: TODOS.cortes });
   if (red) redacao(); else { s1(); coer(); s2(); s3(); s4(); ranking(); virada(); s5(); s6(); topo(); compara('dif'); compara('disc'); s7(); hab(); } }
+// detalhes da questão (só no Banco de Questões), abertos ou fechados ao tocar
+document.addEventListener('click', e => { const b = e.target.closest('.detbtn'); if (!b) return; QDET = !QDET; b.setAttribute('aria-expanded', QDET); const d = b.closest('#qmodalC').querySelector('.qdet'); if (d) d.hidden = !QDET; });
 // gabarito escondido até a pessoa pedir
 document.addEventListener('click', e => { const b = e.target.closest('.vergab'); if (!b) return; const c = document.createElement('span'); c.className = 'chip gab'; c.textContent = 'Gabarito ' + b.dataset.g; b.replaceWith(c); });
 // ---------- Consulta por competência e habilidade, juntando os quatro anos
@@ -1411,7 +1417,7 @@ function hab() {
   box('habLista').innerHTML = grupos.map(G => `<div class="hgrupo"><h3>${st.habVal === 'todas' ? (G.k ? `${nome(G.k)} <span>· ${esc(dic[G.k] || '')} (${G.its.length})</span>` : 'Sem informação') : `Enem ${G.k} <span>(${G.its.length})</span>`}</h3><div class="hlista">${G.its.map(i => {
       const k = its.indexOf(i), cor = i.anulado ? 'var(--ink-3)' : corFaixa(i);
       return `<button type="button" class="hq" data-k="${k}" style="--cor:${cor}"><b>Enem ${i.ano} · Questão ${i.questao}${i.lingua ? ` (${i.lingua.toLowerCase()})` : ''}</b><span class="m">${nomeAp(i.aplicacao)} · C${i.competencia || '–'} · H${i.habilidade || '–'} · ${i.anulado ? 'anulada' : `${i.faixa} (b ${fmt(i.b_enem, 0)})`}${i.disc ? ` · ${esc(i.disc)}` : ''}</span>${i.enunciado ? `<span class="e">${esc(i.enunciado)}</span>` : ''}</button>`; }).join('')}</div></div>`).join('');
-  box('habLista').querySelectorAll('.hq').forEach(b => b.onclick = () => abrirQuestao(its[+b.dataset.k], its, +b.dataset.k));
+  box('habLista').querySelectorAll('.hq').forEach(b => b.onclick = () => abrirQuestao(its[+b.dataset.k], its, +b.dataset.k, true));
 }
 // ---------- menu lateral: mostra uma pergunta por vez, mantendo a área e a aplicação escolhidas
 const SECOES = [['Começo'], ['tri', '', 'Como a TRI funciona'],
