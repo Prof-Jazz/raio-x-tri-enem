@@ -359,7 +359,7 @@ footer { padding-block: 26px 50px; color: var(--ink-3); font-size: 0.85rem; disp
     <div class="msec"><select id="secSel" class="msel" aria-label="Escolha a seção"></select></div>
     <div class="grp grp-ano"><label class="rot" for="segAnoSel">Ano</label><div class="seg" id="segAno"></div><select id="segAnoSel" class="msel"></select></div>
     <div class="grp"><label class="rot" for="segAreaSel">Área</label><div class="seg" id="segArea"></div><select id="segAreaSel" class="msel"></select></div>
-    <div class="grp grp-atalho" role="group" aria-label="Atalhos"><button type="button" class="atalho" data-ir="s7">Questão a questão</button><button type="button" class="atalho" data-ir="hab">Banco de questões</button></div>
+    <div class="grp grp-atalho" role="group" aria-label="Atalhos"><button type="button" class="atalho" data-ir="s7">Questão a Questão</button><button type="button" class="atalho" data-ir="hab">Banco de questões</button></div>
     <div class="grp grp-ap"><label class="rot" for="segApSel">Aplicação</label><div class="seg" id="segAp"></div><select id="segApSel" class="msel"></select></div>
   </div>
 </nav>
@@ -677,7 +677,7 @@ footer { padding-block: 26px 50px; color: var(--ink-3); font-size: 0.85rem; disp
 
 <section class="folha" id="s7">
   <div class="in">
-    <div class="cab"><span class="eyebrow">Questão a questão · <b>dados e print do caderno</b></span>
+    <div class="cab"><span class="eyebrow">Questão a Questão · <b>dados e print do caderno</b></span>
       <h2 id="s7T"></h2>
       <p class="muted small">Toque no número de uma questão para ver os parâmetros, o desempenho dos alunos e a questão como ela saiu no caderno amarelo. A cor do número é o bloco de dificuldade: <span style="color:var(--b-facil);font-weight:700">fácil</span>, <span style="color:var(--b-media);font-weight:700">média</span> ou <span style="color:var(--b-dificil);font-weight:700">difícil</span>. Questões anuladas aparecem tracejadas.</p></div>
     <div class="qmenu"><div class="grp"><span class="rot eyebrow">Ano</span><div class="seg" id="segQAno"></div></div><div class="grp"><span class="rot eyebrow">Aplicação</span><div class="seg" id="segQAp"></div></div><div class="grp"><span class="rot eyebrow">Área</span><div class="seg" id="segQArea"></div></div></div>
@@ -1419,7 +1419,7 @@ const SECOES = [['Começo'], ['tri', '', 'Como a TRI funciona'],
   ['As questões'], ['s2', '2', 'Dificuldade (b)'], ['s3', '3', 'Habilidades e competências'], ['s4', '4', 'Discriminação (a)'], ['ranking', '', 'Ranking das questões'],
   ['Alto desempenho'], ['virada', '4b', 'A virada do parâmetro a'], ['s5', '5', '35 acertos ou mais'], ['s6', '6', 'Quem errou só uma'], ['topo', '6b', 'Gêmeos do topo'],
   ['Comparar anos e disciplinas'], ['dif', '', 'Análise da Dificuldade por Disciplina'], ['disc', '', 'Análise da Discriminação por Prova'],
-  ['Consulta'], ['s7', '', 'Questão a questão'], ['hab', '', 'Banco de questões']];
+  ['Consulta'], ['s7', '', 'Questão a Questão'], ['hab', '', 'Banco de questões']];
 const PERG = SECOES.filter(x => x.length > 1);
 function irPara(id, rolar) {
   if (!PERG.some(p => p[0] === id)) id = PERG[0][0];
