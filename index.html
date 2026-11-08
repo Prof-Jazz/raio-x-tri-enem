@@ -664,11 +664,12 @@ footer { padding-block: 26px 50px; color: var(--ink-3); font-size: 0.85rem; disp
   <div class="in">
     <div class="cab"><span class="eyebrow">Banco de questões · <b>por competência e habilidade</b></span>
       <h2 id="habT"></h2>
-      <p class="muted small">Escolha a área, o ano e se quer filtrar por competência ou por habilidade. Toque em uma questão para ver a questão como saiu no caderno amarelo, os parâmetros e o desempenho dos alunos. O gabarito fica escondido até você tocar em <b>Ver gabarito</b>, para dar para treinar como num simulado.</p></div>
+      <p class="muted small">Escolha a área, o ano, a dificuldade e se quer filtrar por competência ou por habilidade. Toque em uma questão para ver a questão como saiu no caderno amarelo, os parâmetros e o desempenho dos alunos. O gabarito fica escondido até você tocar em <b>Ver gabarito</b>, para dar para treinar como num simulado.</p></div>
     <div class="qmenu">
       <div class="grp"><span class="rot eyebrow">Área</span><div class="seg" id="segHArea"></div></div>
       <div class="grp"><span class="rot eyebrow">Ano</span><div class="seg" id="segHAno"></div></div>
       <div class="grp"><span class="rot eyebrow">Aplicação</span><div class="seg" id="segHAp"></div></div>
+      <div class="grp"><span class="rot eyebrow">Dificuldade</span><div class="seg" id="segHDif"></div></div>
       <div class="grp"><span class="rot eyebrow">Filtrar por</span><div class="seg" id="segHTipo"></div></div>
     </div>
     <label class="hsel"><span class="rot eyebrow" id="habSelRot">Competência</span><select id="habSel"></select></label>
@@ -1340,12 +1341,14 @@ function hab() {
   if (!['todos', ...ANOS_L].includes(st.habAno)) st.habAno = 'todos';
   if (!['P1', 'P2', 'BAM', 'todas'].includes(st.habAp)) st.habAp = 'P1';
   if (!['comp', 'hab'].includes(st.habTipo)) st.habTipo = 'comp';
+  if (st.habDif !== 'todas' && !FAIXAS.includes(st.habDif)) st.habDif = 'todas';
   montaSeg('segHArea', AREAS, 'area'); montaSeg('segHAno', [['todos', 'Todos'], ...ANOS_L.map(a => [a, String(a)])], 'habAno');
   montaSeg('segHAp', [['P1', 'Regular'], ['P2', 'PPL'], ['BAM', 'Belém (2025)'], ['todas', 'Todas']], 'habAp');
+  montaSeg('segHDif', [['todas', 'Todas'], ...FAIXAS.map(f => [f, f])], 'habDif');
   montaSeg('segHTipo', [['comp', 'Competência'], ['hab', 'Habilidade']], 'habTipo');
   const M = TODOS.matriz[area] || {}, tipo = st.habTipo, campo = tipo === 'comp' ? 'competencia' : 'habilidade', dic = (tipo === 'comp' ? M.comp : M.hab) || {};
   const anos = st.habAno === 'todos' ? ANOS_L : [st.habAno];
-  const base = anos.flatMap(a => (TODOS.anos[a].itens || []).filter(i => i.area === area && (st.habAp === 'todas' || i.aplicacao === st.habAp)).map(i => Object.assign({}, i, { ano: a })));
+  const base = anos.flatMap(a => (TODOS.anos[a].itens || []).filter(i => i.area === area && (st.habAp === 'todas' || i.aplicacao === st.habAp) && (st.habDif === 'todas' || (!i.anulado && i.faixa === st.habDif))).map(i => Object.assign({}, i, { ano: a })));
   const conta = {}; base.forEach(i => { if (i[campo]) conta[i[campo]] = (conta[i[campo]] || 0) + 1; });
   const chaves = Object.keys(dic).map(Number).sort((x, y) => x - y);
   if (st.habVal !== 'todas' && !chaves.includes(+st.habVal)) st.habVal = 'todas';
@@ -1354,7 +1357,7 @@ function hab() {
   sel.innerHTML = `<option value="todas">Todas (${base.length} questões)</option>` + chaves.map(k => { const d = dic[k] || ''; return `<option value="${k}">${nome(k)} (${conta[k] || 0}) · ${esc(d.length > 90 ? d.slice(0, 88) + '…' : d)}</option>`; }).join('');
   sel.value = String(st.habVal); sel.onchange = () => { st.habVal = sel.value === 'todas' ? 'todas' : +sel.value; try { localStorage.setItem('raiox', JSON.stringify(st)); } catch (e) {} hab(); };
   const its = base.filter(i => st.habVal === 'todas' || i[campo] === +st.habVal).sort((x, y) => (x[campo] || 99) - (y[campo] || 99) || x.ano - y.ano || x.aplicacao.localeCompare(y.aplicacao) || x.questao - y.questao || (x.lingua || '').localeCompare(y.lingua || ''));
-  const quando = st.habAno === 'todos' ? '2022 a 2025' : String(st.habAno), qual = st.habAp === 'todas' ? 'todas as aplicações' : nomeAp(st.habAp);
+  const quando = st.habAno === 'todos' ? '2022 a 2025' : String(st.habAno), qual = (st.habAp === 'todas' ? 'todas as aplicações' : nomeAp(st.habAp)) + (st.habDif === 'todas' ? '' : ' · ' + st.habDif.toLowerCase());
   box('habT').textContent = `${nomeArea(area)}: ${st.habVal === 'todas' ? (tipo === 'comp' ? 'todas as competências' : 'todas as habilidades') : nome(st.habVal)} · ${quando}`;
   box('habResumo').innerHTML = its.length ? `<b>${its.length} ${its.length === 1 ? 'questão' : 'questões'}</b> · ${qual}${st.habVal !== 'todas' && dic[st.habVal] ? `<br>${esc(dic[st.habVal])}` : ''}` : `Nenhuma questão com esse filtro (${qual}, ${quando}).`;
   const grupos = []; its.forEach(i => { const g = st.habVal === 'todas' ? (i[campo] || 0) : i.ano; let G = grupos[grupos.length - 1]; if (!G || G.k !== g) grupos.push(G = { k: g, its: [] }); G.its.push(i); });
