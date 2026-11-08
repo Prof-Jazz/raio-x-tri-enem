@@ -281,6 +281,20 @@ body.modo-cmp .grp-ano, body.modo-cmp .grp-ap { display: none; }
 .qcaixa { background: var(--sheet); border-radius: 12px; padding: 22px; width: min(840px, 100%); display: grid; gap: 14px; position: relative; }
 #qfechar { justify-self: end; font: 600 0.88rem/1 var(--body); border: 1px solid var(--rule); background: var(--paper); color: var(--ink); padding: 8px 14px; border-radius: 999px; cursor: pointer; }
 #qmodalC { display: grid; gap: 14px; }
+.qtopo { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.qpalco { position: relative; display: grid; gap: 14px; }
+.trilho { position: absolute; top: 0; bottom: 0; width: 46px; pointer-events: none; z-index: 3; }
+.qcaixa > .trilho.esq { left: -66px; } .qcaixa > .trilho.dir { right: -66px; }
+.qpalco > .trilho.esq { left: -40px; } .qpalco > .trilho.dir { right: -40px; }
+.seta { pointer-events: auto; position: sticky; top: calc(50vh - 23px); width: 46px; height: 46px; border-radius: 50%; border: 2px solid var(--amarela); background: var(--sheet); color: var(--ink); display: grid; place-items: center; cursor: pointer; box-shadow: 0 2px 10px rgb(0 0 0 / 0.3); }
+.seta:hover { background: var(--amarela); color: #141a2e; }
+.seta:disabled { opacity: 0.25; cursor: default; background: var(--sheet); color: var(--ink); }
+.seta[hidden] { display: none; }
+@media (max-width: 1000px) {
+  .qcaixa > .trilho.esq, .qpalco > .trilho.esq { left: -14px; } .qcaixa > .trilho.dir, .qpalco > .trilho.dir { right: -14px; }
+  .trilho { width: 38px; } .seta { width: 38px; height: 38px; top: calc(50vh - 19px); }
+}
+@media (max-width: 700px) { .seta { top: calc(100vh - 64px); top: calc(100svh - 64px); opacity: 0.92; } }
 .rk button.qq { border: 0; background: none; color: var(--accent); cursor: pointer; padding: 0; text-align: left; text-decoration: underline; text-underline-offset: 3px; }
 .minis { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 14px; }
 .minis > div { border: 1px solid var(--rule); border-radius: 8px; padding: 10px 12px; }
@@ -318,7 +332,7 @@ footer { padding-block: 26px 50px; color: var(--ink-3); font-size: 0.85rem; disp
 </head>
 <body>
 <div id="tip" role="tooltip"></div>
-<div id="qmodal" hidden><div class="qcaixa" role="dialog" aria-modal="true" aria-label="Questão"><button type="button" id="qfechar" aria-label="Fechar">Fechar ×</button><div id="qmodalC"></div></div></div>
+<div id="qmodal" hidden><div class="qcaixa" role="dialog" aria-modal="true" aria-label="Questão"><div class="qtopo"><span class="small muted" id="qpos"></span><button type="button" id="qfechar" aria-label="Fechar">Fechar ×</button></div><div id="qmodalC"></div><div class="trilho esq"><button type="button" class="seta" id="qant" aria-label="Questão anterior"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button></div><div class="trilho dir"><button type="button" class="seta" id="qprox" aria-label="Próxima questão"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div></div></div>
 
 <header class="wrap hero">
   <div class="seg tema" id="tema" role="group" aria-label="Aparência do site"><button type="button" data-t="light" aria-label="Modo claro" title="Modo claro"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.3 5.3 7 7M17 17l1.7 1.7M5.3 18.7 7 17M17 7l1.7-1.7"/></svg></button><button type="button" data-t="dark" aria-label="Modo escuro" title="Modo escuro"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M20.4 14.6A8.8 8.8 0 0 1 9.4 3.6a.7.7 0 0 0-.9-.9 10 10 0 1 0 12.8 12.8.7.7 0 0 0-.9-.9Z"/></svg></button></div>
@@ -662,8 +676,12 @@ footer { padding-block: 26px 50px; color: var(--ink-3); font-size: 0.85rem; disp
     <div class="qmenu"><div class="grp"><span class="rot eyebrow">Ano</span><div class="seg" id="segQAno"></div></div><div class="grp"><span class="rot eyebrow">Aplicação</span><div class="seg" id="segQAp"></div></div><div class="grp"><span class="rot eyebrow">Área</span><div class="seg" id="segQArea"></div></div></div>
     <div class="qgrade" id="s7grade"></div>
     <div class="qnav"><button id="s7ant" type="button">← Anterior</button><span class="small muted" id="s7pos"></span><button id="s7prox" type="button">Próxima →</button></div>
-    <div class="qficha" id="s7ficha"></div>
-    <div id="s7print"></div>
+    <div class="qpalco">
+      <div class="qficha" id="s7ficha"></div>
+      <div id="s7print"></div>
+      <div class="trilho esq"><button type="button" class="seta" id="s7esq" aria-label="Questão anterior"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button></div>
+      <div class="trilho dir"><button type="button" class="seta" id="s7dir" aria-label="Próxima questão"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
+    </div>
   </div>
 </section>
 
@@ -1005,9 +1023,19 @@ function printHTML(i) {
   else pr = '<p class="small muted">Print indisponível para esta questão.</p>';
   return pr;
 }
-function abrirQuestao(i) {
-  const m = document.getElementById('qmodal'); document.getElementById('qmodalC').innerHTML = fichaHTML(i) + printHTML(i); m.hidden = false; m.scrollTop = 0; document.getElementById('qfechar').focus();
+// lista que está na tela quando a questão foi aberta, para andar com as setas
+let QL = null, QK = 0;
+function mostraQ(i) {
+  const m = document.getElementById('qmodal'); document.getElementById('qmodalC').innerHTML = fichaHTML(i) + printHTML(i); m.scrollTop = 0;
+  const tem = !!QL && QL.length > 1, a = document.getElementById('qant'), p = document.getElementById('qprox');
+  a.hidden = p.hidden = !tem; a.disabled = QK <= 0; p.disabled = !tem || QK >= QL.length - 1;
+  document.getElementById('qpos').textContent = tem ? `${QK + 1} de ${QL.length}` : '';
 }
+function abrirQuestao(i, lista, k) { QL = lista || null; QK = k || 0; mostraQ(i); document.getElementById('qmodal').hidden = false; document.getElementById('qfechar').focus(); }
+function passoQ(d) { if (!QL) return; const n = QK + d; if (n < 0 || n >= QL.length) return; QK = n; mostraQ(QL[n]); }
+function arrastar(el, fn) { let x0 = null, y0 = 0;
+  el.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+  el.addEventListener('touchend', e => { if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null; if (Math.abs(dx) > 70 && Math.abs(dx) > 2 * Math.abs(dy)) fn(dx < 0 ? 1 : -1); }, { passive: true }); }
 function fecharQuestao() { document.getElementById('qmodal').hidden = true; }
 st.q = null;
 const chaveQ = i => `${i.aplicacao}_${i.questao}` + (i.lingua === 'Espanhol' ? '_ESP' : '');
@@ -1024,6 +1052,8 @@ function s7() {
   box('s7ant').onclick = () => { st.q = chaveQ(its[idx - 1]); s7(); box('s7ficha').scrollIntoView({ block: 'nearest' }); };
   box('s7prox').onclick = () => { st.q = chaveQ(its[idx + 1]); s7(); box('s7ficha').scrollIntoView({ block: 'nearest' }); };
   box('s7pos').textContent = `${idx + 1} de ${its.length}`;
+  box('s7esq').disabled = idx === 0; box('s7dir').disabled = idx === its.length - 1;
+  box('s7esq').onclick = () => { st.q = chaveQ(its[idx - 1]); s7(); }; box('s7dir').onclick = () => { st.q = chaveQ(its[idx + 1]); s7(); };
   box('s7ficha').innerHTML = fichaHTML(i);
   box('s7print').innerHTML = printHTML(i);
 }
@@ -1227,7 +1257,8 @@ function ranking() {
         ${i.enunciado ? `<div class="txt" title="${esc(i.enunciado)}">${esc(i.enunciado.slice(0, 160))}</div>` : ''}</div></div>`; }).join('');
   box('rankNota').innerHTML = (anul.length ? `Anuladas pelo INEP (fora do ranking): ${anul.map(i => 'Q' + i.questao).join(', ')}. ` : '') +
     (st.area === 'LC' ? 'Em Linguagens, as questões 1 a 5 aparecem nas versões em inglês e em espanhol. ' : '') + 'Clique no número da questão para ver o print e os dados.';
-  box('rankLista').querySelectorAll('button.qq').forEach(b => b.onclick = () => abrirQuestao(todos[+b.dataset.i]));
+  const rbt = [...box('rankLista').querySelectorAll('button.qq')], rlista = rbt.map(b => todos[+b.dataset.i]);
+  rbt.forEach((b, k) => b.onclick = () => abrirQuestao(rlista[k], rlista, k));
 }
 
 // ---------- redação
@@ -1373,7 +1404,7 @@ function hab() {
   box('habLista').innerHTML = grupos.map(G => `<div class="hgrupo"><h3>${st.habVal === 'todas' ? (G.k ? `${nome(G.k)} <span>· ${esc(dic[G.k] || '')} (${G.its.length})</span>` : 'Sem informação') : `Enem ${G.k} <span>(${G.its.length})</span>`}</h3><div class="hlista">${G.its.map(i => {
       const k = its.indexOf(i), cor = i.anulado ? 'var(--ink-3)' : corFaixa(i);
       return `<button type="button" class="hq" data-k="${k}" style="--cor:${cor}"><b>Enem ${i.ano} · Questão ${i.questao}${i.lingua ? ` (${i.lingua.toLowerCase()})` : ''}</b><span class="m">${nomeAp(i.aplicacao)} · C${i.competencia || '–'} · H${i.habilidade || '–'} · ${i.anulado ? 'anulada' : `${i.faixa} (b ${fmt(i.b_enem, 0)})`}${i.disc ? ` · ${esc(i.disc)}` : ''}</span>${i.enunciado ? `<span class="e">${esc(i.enunciado)}</span>` : ''}</button>`; }).join('')}</div></div>`).join('');
-  box('habLista').querySelectorAll('.hq').forEach(b => b.onclick = () => abrirQuestao(its[+b.dataset.k]));
+  box('habLista').querySelectorAll('.hq').forEach(b => b.onclick = () => abrirQuestao(its[+b.dataset.k], its, +b.dataset.k));
 }
 // ---------- menu lateral: mostra uma pergunta por vez, mantendo a área e a aplicação escolhidas
 const SECOES = [['Começo'], ['tri', '', 'Como a TRI funciona'],
@@ -1423,7 +1454,14 @@ function irPara(id, rolar) {
 montaTudo();
 document.getElementById('qfechar').onclick = fecharQuestao;
 document.getElementById('qmodal').onclick = e => { if (e.target.id === 'qmodal') fecharQuestao(); };
-document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharQuestao(); });
+document.addEventListener('keydown', e => { const aberto = !document.getElementById('qmodal').hidden;
+  if (e.key === 'Escape') return fecharQuestao();
+  if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return; const d = e.key === 'ArrowRight' ? 1 : -1;
+  if (aberto) { e.preventDefault(); passoQ(d); }
+  else if (st.sec === 's7' && !e.target.closest('input, select, textarea')) { const b = document.getElementById(d > 0 ? 's7dir' : 's7esq'); if (!b.disabled) { e.preventDefault(); b.click(); } } });
+document.getElementById('qant').onclick = () => passoQ(-1); document.getElementById('qprox').onclick = () => passoQ(1);
+arrastar(document.getElementById('qmodal'), passoQ);
+arrastar(document.querySelector('.qpalco'), d => { const b = document.getElementById(d > 0 ? 's7dir' : 's7esq'); if (!b.disabled) b.click(); });
 // Simulador da nota (EAP real, com 10 questões fictícias como as da Figura 8 do guia)
 const TRI_B = [200, 250, 320, 380, 450, 500, 590, 680, 730, 800].map(v => (v - 500) / 100);
 const TRI_PRE = { A: [1,0,1,1,1,1,0,0,0,0], B: [1,0,0,0,0,1,0,1,1,1], T: Array(10).fill(1), N: Array(10).fill(0) };
