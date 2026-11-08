@@ -1452,8 +1452,8 @@ function irPara(id, rolar) {
   // A página sempre abre no cabeçalho, mesmo em link com # ou ao recarregar.
   const hash = location.hash.slice(1);
   try { history.scrollRestoration = 'manual'; if (hash) history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
-  const celular = matchMedia('(max-width: 900px)').matches;
-  irPara(PERG.some(p => p[0] === hash) ? hash : (celular ? 'tri' : (st.sec || 'tri')), false);
+  // Quem entra começa sempre em "Como a TRI funciona" (a não ser que o link aponte outra seção).
+  irPara(PERG.some(p => p[0] === hash) ? hash : 'tri', false);
   // Alguns navegadores de celular rolam depois de carregar; repete até a pessoa mexer na página.
   let mexeu = false; ['touchstart', 'wheel', 'keydown', 'mousedown'].forEach(ev => window.addEventListener(ev, () => { mexeu = true; }, { once: true, passive: true }));
   const aoTopo = () => { if (!mexeu) window.scrollTo({ top: 0, behavior: 'instant' }); };
