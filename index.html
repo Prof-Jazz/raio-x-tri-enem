@@ -53,8 +53,15 @@
 
 * { box-sizing: border-box; }
 .msel, .msec { display: none; }
+/* barra do topo: Ano, Área e Aplicação em listas coloridas, no computador e no celular */
+.barra .grp .seg { display: none; }
+.barra .grp-ano { --hc: var(--s3); } .barra .grp-area { --hc: var(--s1); } .barra .grp-ap { --hc: var(--s2); } .barra .msec { --hc: var(--amarela); }
+.barra .msel { display: block; min-width: 0; height: 38px; padding: 0 34px 0 12px; font: 600 16px/1.2 var(--body); color: var(--ink); border: 2px solid var(--hc, var(--rule)); border-radius: 10px; -webkit-appearance: none; appearance: none; cursor: pointer; text-overflow: ellipsis;
+  background-color: color-mix(in srgb, var(--hc, var(--rule)) 10%, var(--sheet)); background-image: linear-gradient(45deg, transparent 50%, var(--hc, var(--ink-2)) 50%), linear-gradient(135deg, var(--hc, var(--ink-2)) 50%, transparent 50%); background-size: 6px 6px; background-position: right 17px center, right 11px center; background-repeat: no-repeat; }
+.barra .msel:focus-visible { outline: 2px solid var(--hc); outline-offset: 2px; }
+@media (max-width: 900px) { .barra .msel { width: 100%; padding: 0 24px 0 9px; background-position: right 14px center, right 8px center; } }
+@media (min-width: 901px) { .barra .grp-ano .msel { width: 96px; } .barra .grp-area .msel { width: 150px; } .barra .grp-ap .msel { width: 140px; } .barra .grp-atalho { margin-left: 8px; } }
 .grp-atalho { gap: 6px; }
-@media (min-width: 901px) { .barra .wrap .grp-atalho { flex-basis: 100%; padding-left: var(--recuo-ano, 0px); } }
 @media (min-width: 901px) { .barra .wrap { column-gap: 14px; } .barra .grp { gap: 8px; } .barra .grp .seg button { padding: 8px 10px; } }
 .atalho { font: 600 0.84rem/1 var(--body); padding: 9px 13px; border-radius: 999px; border: 1.5px solid var(--amarela); background: transparent; color: var(--ink); cursor: pointer; white-space: nowrap; }
 .atalho:hover { background: var(--amarela-soft); }
@@ -364,7 +371,7 @@ footer { padding-block: 26px 50px; color: var(--ink-3); font-size: 0.85rem; disp
     <a href="./" class="logo-link" aria-label="Voltar ao início"><img class="logo-claro mini" src="marca/jazz-claro.png" alt="Professor Jazz · Professor de Matemática" height="28"><img class="logo-escuro mini" src="marca/jazz-escuro.png" alt="Professor Jazz · Professor de Matemática" height="28"></a>
     <div class="msec"><select id="secSel" class="msel" aria-label="Escolha a seção"></select></div>
     <div class="grp grp-ano"><label class="rot" for="segAnoSel">Ano</label><div class="seg" id="segAno"></div><select id="segAnoSel" class="msel"></select></div>
-    <div class="grp"><label class="rot" for="segAreaSel">Área</label><div class="seg" id="segArea"></div><select id="segAreaSel" class="msel"></select></div>
+    <div class="grp grp-area"><label class="rot" for="segAreaSel">Área</label><div class="seg" id="segArea"></div><select id="segAreaSel" class="msel"></select></div>
     <div class="grp grp-ap"><label class="rot" for="segApSel">Aplicação</label><div class="seg" id="segAp"></div><select id="segApSel" class="msel"></select></div>
     <div class="grp grp-atalho" role="group" aria-label="Atalhos"><button type="button" class="atalho" data-ir="s7">Questão a Questão</button><button type="button" class="atalho" data-ir="hab">Banco de Questões</button></div>
   </div>
